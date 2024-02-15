@@ -214,14 +214,15 @@ class InvaderProjectile {
 
 class Asteroid {
     constructor({position}) {
+        //this.position = position;
         this.velocity = {
             x: 0,
-            y: Math.floor(Math.random() * 5)
+            y: Math.floor(Math.random() * 2) + 1
         };
         const image = new Image();
         image.src = './asteroid.png';
         image.onload = () => {
-            const scale = 0.15;
+            const scale = 0.1;
             this.image = image;
             this.width = image.width * scale;
             this.height = image.height * scale;
@@ -245,7 +246,6 @@ class Asteroid {
             this.draw();
             this.position.y += this.velocity.y;
         }
-    
     }
 }
 
@@ -254,14 +254,13 @@ const projectiles = [];
 const grids = [];
 const InvaderProjectiles = [];
 const particles = [];
-const asteroids = [];
-
-//test asteroid
-const asteroid = new Asteroid({position: {
-    x: 100,
-    y: 100 
- }});
-
+const asteroids = [/*new Asteroid({
+    position: {
+        x: canvas.width / 2 + 5,
+        y: 0
+    }
+})*/];
+ 
 const keys = {
     a: {
         pressed: false
@@ -299,6 +298,16 @@ for(let i = 0; i < 100; i++){
     }))
 }
 
+//create asteroids
+for(let i = 0; i < 3; i++){
+    asteroids.push(new Asteroid({
+        position: {
+            x: Math.random() * canvas.width,
+            y: 0
+        }
+    }))
+}
+
 function createParticles({object, color, fades}) {
     for(let i = 0; i < 15; i++){
         particles.push(new Particle({
@@ -323,7 +332,31 @@ function animate() {
     c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width, canvas.height);
     player.update();
-    asteroid.update();
+    asteroids.forEach((asteroid, index) => {
+        if(asteroid.position && player.position){
+            if(asteroid.position.y + asteroid.height >= player.position.y + (player.height / 2)
+            && asteroid.position.x + asteroid.width >= player.position.x
+            && asteroid.position.x <= player.position.x + player.width){
+                setTimeout(() => {
+                    asteroids.splice(index, 1);
+                    player.opacity = 0;
+                    game.over = true;
+                }, 0);
+                setTimeout(() => {
+                    game.active = false;
+                }, 2000);
+                //console.log('asteroid hit you!');
+                createParticles({
+                    object: player,
+                    color: 'white',
+                    fades: true
+                });
+            } else {
+                asteroid.update();
+            }
+        }
+        
+    });
     particles.forEach((particle, i) => {
         //background stars 
         if(particle.position.y - particle.radius >= canvas.height) {
