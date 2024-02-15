@@ -249,12 +249,43 @@ class Asteroid {
     }
 }
 
+class Planet extends Asteroid{
+    constructor({position, imageFile}){
+        super({position});
+        const image = new Image();
+        image.src = imageFile;
+        image.onload = () => {
+            const scale = 0.5;
+            this.image = image;
+            this.width = image.width * scale;
+            this.height = image.height * scale;
+            this.position = {
+                x: position.x,
+                y: position.y
+            };
+        }
+    }
+    draw(){
+        super.draw();
+    }
+    update(){
+        super.update();
+    }
+}
+
 const player = new Player();
 const projectiles = [];
 const grids = [];
 const InvaderProjectiles = [];
 const particles = [];
 const asteroids = [];
+const planets = [new Planet({
+    position: {
+        x: 50,
+        y: 50
+    }, 
+    imageFile: './purple-planet.png'
+})];
  
 const keys = {
     a: {
@@ -361,6 +392,9 @@ function animate() {
             }
         }
         
+    });
+    planets.forEach((planet) => {
+        planet.update();
     });
     particles.forEach((particle, i) => {
         //background stars 
