@@ -106,7 +106,6 @@ class Invader {
                 y: 5
             }
         }));
-    
     }
 }
 
@@ -143,7 +142,6 @@ class Grid {
             this.velocity.y = 30;
         }
     }
-    
 }
 
 class Projectile {
@@ -214,11 +212,55 @@ class InvaderProjectile {
     }
 }
 
+class Asteroid {
+    constructor({position}) {
+        this.velocity = {
+            x: 0,
+            y: Math.floor(Math.random() * 5)
+        };
+        const image = new Image();
+        image.src = './asteroid.png';
+        image.onload = () => {
+            const scale = 0.15;
+            this.image = image;
+            this.width = image.width * scale;
+            this.height = image.height * scale;
+            this.position = {
+                x: position.x,
+                y: position.y
+            };
+        }
+    }
+    draw(){
+        if(this.image){
+            c.drawImage(this.image, 
+                        this.position.x, 
+                        this.position.y, 
+                        this.width, 
+                        this.height);
+        }
+    }
+    update() {
+        if(this.image) {
+            this.draw();
+            this.position.y += this.velocity.y;
+        }
+    
+    }
+}
+
 const player = new Player();
 const projectiles = [];
 const grids = [];
 const InvaderProjectiles = [];
 const particles = [];
+const asteroids = [];
+
+//test asteroid
+const asteroid = new Asteroid({position: {
+    x: 100,
+    y: 100 
+ }});
 
 const keys = {
     a: {
@@ -241,6 +283,7 @@ let game = {
 
 let score = 0;
 
+//background stars
 for(let i = 0; i < 100; i++){
     particles.push(new Particle({
         position: {
@@ -280,11 +323,14 @@ function animate() {
     c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width, canvas.height);
     player.update();
+    asteroid.update();
     particles.forEach((particle, i) => {
+        //background stars 
         if(particle.position.y - particle.radius >= canvas.height) {
             particle.position.x = Math.random() * canvas.width;
             particle.position.y = -particle.radius;
         }
+        //explosion particles
         if(particle.opacity <= 0) {
             setTimeout(() => {
                 particles.splice(i, 1);
@@ -323,6 +369,7 @@ function animate() {
                 });
         }
     });
+    //player's projectile movement update
     projectiles.forEach((projectile, index) => {
         if(projectile.position.y + projectile.radius <= 0){
             setTimeout(() => {
