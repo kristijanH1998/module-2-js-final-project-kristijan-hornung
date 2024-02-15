@@ -2,8 +2,8 @@ const scoreEl = document.querySelector('#scoreEl');
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
-canvas.width = 1024;
-canvas.height = 576;
+canvas.width = 1280;
+canvas.height = 800;
 
 class Player {
     constructor() {
@@ -217,7 +217,7 @@ class Asteroid {
         //this.position = position;
         this.velocity = {
             x: 0,
-            y: Math.floor(Math.random() * 2) + 1
+            y: Math.random() * 2.5 + 0.5
         };
         const image = new Image();
         image.src = './asteroid.png';
@@ -254,12 +254,7 @@ const projectiles = [];
 const grids = [];
 const InvaderProjectiles = [];
 const particles = [];
-const asteroids = [/*new Asteroid({
-    position: {
-        x: canvas.width / 2 + 5,
-        y: 0
-    }
-})*/];
+const asteroids = [];
  
 const keys = {
     a: {
@@ -336,7 +331,8 @@ function animate() {
         if(asteroid.position && player.position){
             if(asteroid.position.y + asteroid.height >= player.position.y + (player.height / 2)
             && asteroid.position.x + asteroid.width >= player.position.x
-            && asteroid.position.x <= player.position.x + player.width){
+            && asteroid.position.x <= player.position.x + player.width
+            && asteroid.position.y < canvas.height){
                 setTimeout(() => {
                     asteroids.splice(index, 1);
                     player.opacity = 0;
@@ -351,7 +347,16 @@ function animate() {
                     color: 'white',
                     fades: true
                 });
+                createParticles({
+                    object: asteroid,
+                    color: 'grey',
+                    fades: true
+                })
             } else {
+                if(asteroid.position.y - (asteroid.height / 2) >= canvas.height) {
+                    asteroid.position.x = Math.random() * canvas.width;
+                    asteroid.position.y = -(asteroid.height / 2);
+                }
                 asteroid.update();
             }
         }
