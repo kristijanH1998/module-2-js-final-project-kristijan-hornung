@@ -250,11 +250,11 @@ class Asteroid {
 }
 
 class Planet extends Asteroid{
-    constructor({position, imageFile, scale}){
+    constructor({position, imageFile, scale, velocity}){
         super({position});
         this.velocity = {
-            x: 0,
-            y: Math.random() + 0.1
+            x: velocity.x,
+            y: velocity.y
         };
         const image = new Image();
         image.src = imageFile;
@@ -297,78 +297,128 @@ const InvaderProjectiles = [];
 const particles = [];
 const backgroundStars = [];
 const asteroids = [];
-const planets = [new Planet({
+let planet1 = new Planet({
     position: {
-        x: 50,
-        y: 50
+        x: 100,
+        y: -200
     }, 
     imageFile: './purple-planet.png',
-    scale: 0.2
-}), new Planet({
+    scale: 0.2,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet2 = new Planet({
     position: {
-        x: 500,
-        y: 500
-    }, 
-    imageFile: './blue-planet-1.png',
-    scale: 0.2
-}), new Planet({
-    position: {
-        x: 400,
-        y: 400
+        x: 200,
+        y: -200
     }, 
     imageFile: './saturn.png',
-    scale: 0.5
-}), new Planet({
-    position: {
-        x: 600,
-        y: 100
-    }, 
-    imageFile: './jupiter.png',
-    scale: 0.15
-}), new Planet({
+    scale: 0.5,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet3 = new Planet({
     position: {
         x: 300,
-        y: 300
+        y: -200
+    }, 
+    imageFile: './jupiter.png',
+    scale: 0.15,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet4 = new Planet({
+    position: {
+        x: 400,
+        y: -200
     }, 
     imageFile: './mars.png',
-    scale: 0.2
-}), new Planet({
+    scale: 0.2,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet5 = new Planet({
     position: {
-        x: 1000,
-        y: 400
+        x: 500,
+        y: -200
     }, 
     imageFile: './mercury.png',
-    scale: 0.2
-}), new Planet({
+    scale: 0.2,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet6 = new Planet({
     position: {
-        x: 1000,
-        y: 600
+        x: 600,
+        y: -200
     }, 
     imageFile: './venus.png',
-    scale: 0.2
-}), new Planet({
-    position: {
-        x: 600,
-        y: 300
-    }, 
-    imageFile: './earth.png',
-    scale: 0.2
-}), new Planet({
+    scale: 0.2,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet7 = new Planet({
     position: {
         x: 700,
-        y: 200
+        y: -200
+    }, 
+    imageFile: './earth.png',
+    scale: 0.2,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet8 = new Planet({
+    position: {
+        x: 800,
+        y: -200
     }, 
     imageFile: './neptune.png',
-    scale: 0.2
-}), new Planet({
+    scale: 0.2,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet9 = new Planet({
     position: {
-        x: 600,
-        y: 150
+        x: 900,
+        y: -200
     }, 
     imageFile: './uranus.png',
-    scale: 0.2
-})];
- 
+    scale: 0.2,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+let planet10 = new Planet({
+    position: {
+        x: 1000,
+        y: -200
+    }, 
+    imageFile: './blue-planet-1.png',
+    scale: 0.2,
+    velocity: {
+        x: 0,
+        y: 0
+    }
+});
+const planets = [planet1, planet2, planet3, planet4, planet5, planet6, planet7, planet8, planet9, planet10];
+
 const keys = {
     a: {
         pressed: false
@@ -383,6 +433,7 @@ const keys = {
 
 let frames = 0;
 let randomInterval = Math.floor((Math.random() * 500) + 500);
+let planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
 let game = {
     over: false,
     active: true
@@ -450,8 +501,10 @@ function animate() {
             star.update();
         }
     });
+
     planets.forEach((planet) => {
         if(planet.position && (planet.position.y - (planet.height / 2) >= canvas.height)) {
+            planet.velocity.y = 0;
             planet.position.x = Math.random() * canvas.width;
             planet.position.y = -planet.height;
         } else {
@@ -634,6 +687,12 @@ function animate() {
         grids.push(new Grid());
         randomInterval = Math.floor((Math.random() * 500) + 500);
         frames = 0;
+    }
+    //spawning planets at random intervals with random speeds and random velocities
+    if(frames % planetRespawnInterval === 0){
+        let randomPlanet = planets[Math.floor(Math.random() * 10)];
+        randomPlanet.velocity.y = Math.floor(Math.random() * 2) + 0.5;
+        planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
     }
 
     frames++;
