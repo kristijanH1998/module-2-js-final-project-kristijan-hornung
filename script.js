@@ -254,7 +254,7 @@ class Planet extends Asteroid{
         super({position});
         this.velocity = {
             x: 0,
-            y: Math.random() * 2 + 0.1
+            y: Math.random() + 0.1
         };
         const image = new Image();
         image.src = imageFile;
@@ -303,7 +303,7 @@ const planets = [new Planet({
         y: 50
     }, 
     imageFile: './purple-planet.png',
-    scale: 1
+    scale: 0.2
 })];
  
 const keys = {
@@ -403,6 +403,32 @@ function animate() {
     
     player.update();
     asteroids.forEach((asteroid, index) => {
+        projectiles.forEach((projectile, j) => {
+            if(projectile.position.y - projectile.radius <= asteroid.position.y + asteroid.height
+                && projectile.position.x + projectile.radius >= asteroid.position.x
+                && projectile.position.x - projectile.radius <= asteroid.position.x + asteroid.width
+                && projectile.position.y + projectile.radius >= asteroid.position.y){
+                
+                setTimeout(() => {
+                    const asteroidFound = asteroids.find(asteroid2 => {
+                        return asteroid2 === asteroid;
+                    });
+                    const projectileFound = projectiles.find(projectile3 => projectile3 === projectile);
+                    //remove invader and projectile
+                    if(asteroidFound && projectileFound) {
+                        score += 50;
+                        scoreEl.innerHTML = score;
+                        createParticles({
+                            object: asteroid,
+                            color: 'grey', 
+                            fades: true
+                        });
+                        asteroids.splice(index, 1);
+                        projectiles.splice(j, 1);
+                    }
+                }, 0);
+            }
+        });
         if(asteroid.position && player.position){
             if(asteroid.position.y + asteroid.height >= player.position.y + (player.height / 2)
             && asteroid.position.x + asteroid.width >= player.position.x
