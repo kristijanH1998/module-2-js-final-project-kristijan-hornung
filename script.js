@@ -525,17 +525,19 @@ function animate() {
     player.update();
     asteroids.forEach((asteroid, index) => {
         projectiles.forEach((projectile, j) => {
+            //asteroid destroyed
             if(projectile.position.y - projectile.radius <= asteroid.position.y + asteroid.height
                 && projectile.position.x + projectile.radius >= asteroid.position.x
                 && projectile.position.x - projectile.radius <= asteroid.position.x + asteroid.width
                 && projectile.position.y + projectile.radius >= asteroid.position.y){
-                
+                let asteroidDestroyed = new Audio('invaderkilled.wav');
+                asteroidDestroyed.play();
                 setTimeout(() => {
                     const asteroidFound = asteroids.find(asteroid2 => {
                         return asteroid2 === asteroid;
                     });
                     const projectileFound = projectiles.find(projectile3 => projectile3 === projectile);
-                    //remove invader and projectile
+                    //remove asteroid and projectile
                     if(asteroidFound && projectileFound) {
                         score += 50;
                         scoreEl.innerHTML = score;
@@ -550,11 +552,14 @@ function animate() {
                 }, 0);
             }
         });
+        //asteroid hits player
         if(asteroid.position && player.position){
             if(asteroid.position.y + asteroid.height >= player.position.y + (player.height / 2)
             && asteroid.position.x + asteroid.width >= player.position.x
             && asteroid.position.x <= player.position.x + player.width
             && asteroid.position.y < canvas.height){
+                let playerKilled = new Audio('explosion.wav');
+                playerKilled.play();
                 setTimeout(() => {
                     asteroids.splice(index, 1);
                     player.opacity = 0;
@@ -563,7 +568,6 @@ function animate() {
                 setTimeout(() => {
                     game.active = false;
                 }, 2000);
-                //console.log('asteroid hit you!');
                 createParticles({
                     object: player,
                     color: 'white',
@@ -598,6 +602,8 @@ function animate() {
         if(InvaderProjectile.position.y + InvaderProjectile.height >= player.position.y
             && InvaderProjectile.position.x + InvaderProjectile.width >= player.position.x
             && InvaderProjectile.position.x <= player.position.x + player.width){
+                let playerKilled = new Audio('explosion.wav');
+                playerKilled.play();
                 setTimeout(() => {
                     InvaderProjectiles.splice(index, 1);
                     player.opacity = 0;
@@ -630,6 +636,8 @@ function animate() {
         //spawn projectiles
         if(frames % 100 === 0 && grid.invaders.length > 0) {
             grid.invaders[Math.floor(Math.random() * grid.invaders.length)].shoot(InvaderProjectiles);
+            let invaderShoot = new Audio('fastinvader1.wav');
+            invaderShoot.play();
         }
         grid.invaders.forEach((invader, i) => {
             invader.update({velocity: grid.velocity});
@@ -648,6 +656,10 @@ function animate() {
                         const projectileFound = projectiles.find(projectile2 => projectile2 === projectile);
                         //remove invader and projectile
                         if(invaderFound && projectileFound) {
+
+                            let invaderKilled = new Audio('invaderkilled.wav');
+                            invaderKilled.play();
+
                             score += 100;
                             scoreEl.innerHTML = score;
                             createParticles({
@@ -719,7 +731,8 @@ addEventListener('keydown', ({ key }) => {
                     y: -10
                 }
             }));
-            //console.log(projectiles); //for checking the 'projectiles' array's contents
+            let laserShot = new Audio('shoot.wav');
+            laserShot.play();
             break;
     }
 });
