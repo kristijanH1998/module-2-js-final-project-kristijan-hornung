@@ -16,7 +16,7 @@ class Player {
         const image = new Image();
         image.src = './spaceship.png';
         image.onload = () => {
-            const scale = 0.15;
+            const scale = 0.06;
             this.image = image;
             this.width = image.width * scale;
             this.height = image.height * scale;
