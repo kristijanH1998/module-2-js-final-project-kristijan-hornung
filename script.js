@@ -304,6 +304,20 @@ const planets = [new Planet({
     }, 
     imageFile: './purple-planet.png',
     scale: 0.2
+}), new Planet({
+    position: {
+        x: 500,
+        y: 500
+    }, 
+    imageFile: './blue-planet-1.png',
+    scale: 0.2
+}), new Planet({
+    position: {
+        x: 400,
+        y: 400
+    }, 
+    imageFile: './saturn.png',
+    scale: 0.5
 })];
  
 const keys = {
