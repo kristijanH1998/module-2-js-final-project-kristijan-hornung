@@ -325,6 +325,48 @@ const planets = [new Planet({
     }, 
     imageFile: './jupiter.png',
     scale: 0.15
+}), new Planet({
+    position: {
+        x: 300,
+        y: 300
+    }, 
+    imageFile: './mars.png',
+    scale: 0.2
+}), new Planet({
+    position: {
+        x: 1000,
+        y: 400
+    }, 
+    imageFile: './mercury.png',
+    scale: 0.2
+}), new Planet({
+    position: {
+        x: 1000,
+        y: 600
+    }, 
+    imageFile: './venus.png',
+    scale: 0.2
+}), new Planet({
+    position: {
+        x: 600,
+        y: 300
+    }, 
+    imageFile: './earth.png',
+    scale: 0.2
+}), new Planet({
+    position: {
+        x: 700,
+        y: 200
+    }, 
+    imageFile: './neptune.png',
+    scale: 0.2
+}), new Planet({
+    position: {
+        x: 600,
+        y: 150
+    }, 
+    imageFile: './uranus.png',
+    scale: 0.2
 })];
  
 const keys = {
