@@ -451,7 +451,12 @@ function animate() {
         }
     });
     planets.forEach((planet) => {
-        planet.update();
+        if(planet.position && (planet.position.y - (planet.height / 2) >= canvas.height)) {
+            planet.position.x = Math.random() * canvas.width;
+            planet.position.y = -planet.height;
+        } else {
+            planet.update();
+        }
     });
     particles.forEach((particle, i) => {
         //explosion particles
