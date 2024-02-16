@@ -431,9 +431,13 @@ const keys = {
     }
 }
 
-let frames = 0;
+let frames1 = 0;
+let frames2 = 0;
+let frames3 = 0;
+
 let randomInterval = Math.floor((Math.random() * 500) + 500);
 let planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
+let asteroidRespawnInterval = Math.floor((Math.random() * 750) + 100);
 let game = {
     over: false,
     active: true
@@ -643,7 +647,7 @@ function animate() {
     grids.forEach((grid, gridIndex) => {
         grid.update();
         //spawn projectiles
-        if(frames % 100 === 0 && grid.invaders.length > 0) {
+        if(frames1 % 100 === 0 && grid.invaders.length > 0) {
             grid.invaders[Math.floor(Math.random() * grid.invaders.length)].shoot(InvaderProjectiles);
             let invaderShoot = new Audio('fastinvader1.wav');
             invaderShoot.play();
@@ -704,19 +708,28 @@ function animate() {
         player.rotation = 0;
     }
     //spawning enemies
-    if(frames % randomInterval === 0){
+    if(frames1 % randomInterval === 0){
         grids.push(new Grid());
         randomInterval = Math.floor((Math.random() * 500) + 500);
-        frames = 0;
+        frames1 = 0;
     }
-    //spawning planets at random intervals with random speeds and random velocities
-    if(frames % planetRespawnInterval === 0){
-        let randomPlanet = planets[Math.floor(Math.random() * 10)];
+    //spawning planets at random intervals with random positions on x-axis and random velocities
+    if(frames2 % planetRespawnInterval === 0){
+        let randomPlanet = planets[Math.floor(Math.random() * planets.length)];
         randomPlanet.velocity.y = Math.floor(Math.random() * 2) + 0.5;
         planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
+        frames2 = 0;
     }
-
-    frames++;
+    //spawning asteroids at random intervals with random positions on x-axis and random velocities
+    if(frames3 % asteroidRespawnInterval === 0){
+        let randomAsteroid = asteroids[Math.floor(Math.random() * asteroids.length)];
+        randomAsteroid.velocity.y = Math.floor(Math.random() * 2) + 0.5;
+        asteroidRespawnInterval = Math.floor((Math.random() * 750) + 100);
+        frames3 = 0;
+    }
+    frames1++;
+    frames2++;
+    frames3++;
 }
 animate();
 
