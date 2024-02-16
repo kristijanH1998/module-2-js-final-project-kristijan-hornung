@@ -250,12 +250,16 @@ class Asteroid {
 }
 
 class Planet extends Asteroid{
-    constructor({position, imageFile}){
+    constructor({position, imageFile, scale}){
         super({position});
+        this.velocity = {
+            x: 0,
+            y: Math.random() * 2 + 0.1
+        };
         const image = new Image();
         image.src = imageFile;
         image.onload = () => {
-            const scale = 0.5;
+            this.scale = scale;
             this.image = image;
             this.width = image.width * scale;
             this.height = image.height * scale;
@@ -265,11 +269,24 @@ class Planet extends Asteroid{
             };
         }
     }
+
     draw(){
-        super.draw();
+        c.save();
+        c.globalAlpha = 1;
+        if(this.image){
+            c.drawImage(this.image, 
+                        this.position.x, 
+                        this.position.y, 
+                        this.width, 
+                        this.height);
+        }
+        c.restore();
     }
     update(){
-        super.update();
+        if(this.image) {
+            this.draw();
+            this.position.y += this.velocity.y;
+        }
     }
 }
 
@@ -278,13 +295,15 @@ const projectiles = [];
 const grids = [];
 const InvaderProjectiles = [];
 const particles = [];
+const backgroundStars = [];
 const asteroids = [];
 const planets = [new Planet({
     position: {
         x: 50,
         y: 50
     }, 
-    imageFile: './purple-planet.png'
+    imageFile: './purple-planet.png',
+    scale: 1
 })];
  
 const keys = {
@@ -310,7 +329,7 @@ let score = 0;
 
 //background stars
 for(let i = 0; i < 100; i++){
-    particles.push(new Particle({
+    backgroundStars.push(new Particle({
         position: {
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height
@@ -334,6 +353,7 @@ for(let i = 0; i < 3; i++){
     }))
 }
 
+//explosion particles
 function createParticles({object, color, fades}) {
     for(let i = 0; i < 15; i++){
         particles.push(new Particle({
@@ -357,6 +377,30 @@ function animate() {
     requestAnimationFrame(animate);
     c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width, canvas.height);
+
+    backgroundStars.forEach((star) => {
+        //background stars rendered
+        if(star.position.y - star.radius >= canvas.height) {
+            star.position.x = Math.random() * canvas.width;
+            star.position.y = -star.radius;
+        } else {
+            star.update();
+        }
+    });
+    planets.forEach((planet) => {
+        planet.update();
+    });
+    particles.forEach((particle, i) => {
+        //explosion particles
+        if(particle.opacity <= 0) {
+            setTimeout(() => {
+                particles.splice(i, 1);
+            }, 0);
+        } else  {
+            particle.update();
+        }
+    });
+    
     player.update();
     asteroids.forEach((asteroid, index) => {
         if(asteroid.position && player.position){
@@ -392,24 +436,6 @@ function animate() {
             }
         }
         
-    });
-    planets.forEach((planet) => {
-        planet.update();
-    });
-    particles.forEach((particle, i) => {
-        //background stars 
-        if(particle.position.y - particle.radius >= canvas.height) {
-            particle.position.x = Math.random() * canvas.width;
-            particle.position.y = -particle.radius;
-        }
-        //explosion particles
-        if(particle.opacity <= 0) {
-            setTimeout(() => {
-                particles.splice(i, 1);
-            }, 0);
-        } else  {
-            particle.update();
-        }
     });
 
     InvaderProjectiles.forEach((InvaderProjectile, index) => {
@@ -497,7 +523,7 @@ function animate() {
                 }
             });
         })
-    })
+    });
 
     if (keys.a.pressed && player.position.x >= 0){
         player.velocity.x = -5;
