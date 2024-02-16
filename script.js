@@ -462,7 +462,7 @@ for(let i = 0; i < 3; i++){
     asteroids.push(new Asteroid({
         position: {
             x: Math.random() * canvas.width,
-            y: 0
+            y: -50
         }
     }))
 }
@@ -547,6 +547,15 @@ function animate() {
                             fades: true
                         });
                         asteroids.splice(index, 1);
+                        let respawnAsteroidTime = Math.floor(Math.random() * 10) + 1;
+                        setTimeout(() => {
+                            asteroids.push(new Asteroid({
+                                position: {
+                                    x: Math.random() * canvas.width,
+                                    y: -50
+                                }
+                            }));
+                        }, respawnAsteroidTime * 1000);
                         projectiles.splice(j, 1);
                     }
                 }, 0);
