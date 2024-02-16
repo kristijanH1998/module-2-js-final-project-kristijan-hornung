@@ -433,7 +433,6 @@ const keys = {
 
 let frames1 = 0;
 let frames2 = 0;
-let frames3 = 0;
 
 let randomInterval = Math.floor((Math.random() * 500) + 500);
 let planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
@@ -462,14 +461,16 @@ for(let i = 0; i < 100; i++){
 }
 
 //create asteroids
-for(let i = 0; i < 3; i++){
+for(let i = 0; i < 2; i++){
+    let randomAsteroidStartPosition = -((Math.random() * 1000) + 100);
+    //console.log(randomAsteroidStartPosition)
     asteroids.push(new Asteroid({
         position: {
             x: Math.random() * canvas.width,
-            y: -50
+            y: randomAsteroidStartPosition
         }
     }))
-}
+};
 
 //explosion particles
 function createParticles({object, color, fades}) {
@@ -594,7 +595,7 @@ function animate() {
             } else {
                 if(asteroid.position.y - (asteroid.height / 2) >= canvas.height) {
                     asteroid.position.x = Math.random() * canvas.width;
-                    asteroid.position.y = -(asteroid.height / 2);
+                    asteroid.position.y = -((Math.random() * 1000) + 100);
                 }
                 asteroid.update();
             }
@@ -720,16 +721,8 @@ function animate() {
         planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
         frames2 = 0;
     }
-    //spawning asteroids at random intervals with random positions on x-axis and random velocities
-    if(frames3 % asteroidRespawnInterval === 0){
-        let randomAsteroid = asteroids[Math.floor(Math.random() * asteroids.length)];
-        randomAsteroid.velocity.y = Math.floor(Math.random() * 2) + 0.5;
-        asteroidRespawnInterval = Math.floor((Math.random() * 750) + 100);
-        frames3 = 0;
-    }
     frames1++;
     frames2++;
-    frames3++;
 }
 animate();
 
