@@ -318,6 +318,13 @@ const planets = [new Planet({
     }, 
     imageFile: './saturn.png',
     scale: 0.5
+}), new Planet({
+    position: {
+        x: 600,
+        y: 100
+    }, 
+    imageFile: './jupiter.png',
+    scale: 0.15
 })];
  
 const keys = {
