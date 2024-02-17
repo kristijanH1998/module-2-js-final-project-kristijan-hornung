@@ -717,6 +717,9 @@ function animate() {
     //spawning planets at random intervals with random positions on x-axis and random velocities
     if(frames2 % planetRespawnInterval === 0){
         let randomPlanet = planets[Math.floor(Math.random() * planets.length)];
+        while(randomPlanet.velocity.y != 0){
+            randomPlanet = planets[Math.floor(Math.random() * planets.length)];
+        }
         randomPlanet.velocity.y = Math.floor(Math.random() * 2) + 0.5;
         planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
         frames2 = 0;
