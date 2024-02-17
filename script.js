@@ -66,7 +66,6 @@ class Invader {
         const image = new Image();
         image.src = imageSrc;
         image.onload = () => {
-            //const scale = 1;
             this.image = image;
             this.width = 31;
             this.height = 39;
@@ -666,7 +665,8 @@ function animate() {
     grids.forEach((grid, gridIndex) => {
         grid.update();
         //spawn projectiles
-        if(frames1 % 100 === 0 && grid.invaders.length > 0) {
+        let invaderFirerate = 120 - (level * 10);
+        if(frames1 % invaderFirerate === 0 && grid.invaders.length > 0) {
             grid.invaders[Math.floor(Math.random() * grid.invaders.length)].shoot(InvaderProjectiles);
             let invaderShoot = new Audio('fastinvader1.wav');
             invaderShoot.play();
