@@ -57,18 +57,18 @@ class Player {
 }
 
 class Invader {
-    constructor({position}) {
+    constructor({position, imageSrc}) {
         this.velocity = {
             x: 0,
             y: 0
         };
         const image = new Image();
-        image.src = './invader.png';
+        image.src = imageSrc;
         image.onload = () => {
-            const scale = 1;
+            //const scale = 1;
             this.image = image;
-            this.width = image.width * scale;
-            this.height = image.height * scale;
+            this.width = 31;
+            this.height = 39;
             this.position = {
                 x: position.x,
                 y: position.y
@@ -129,7 +129,7 @@ class Grid {
                 this.invaders.push(new Invader({position: {
                     x: x * 30,
                     y: y * 30 
-                 }}));
+                 }, imageSrc: invaderImages[level - 1]}));
             }
         }
     }
@@ -419,6 +419,8 @@ let planet10 = new Planet({
     }
 });
 const planets = [planet1, planet2, planet3, planet4, planet5, planet6, planet7, planet8, planet9, planet10];
+const invaderImages = ['invader1.png', 'invader2.png', 'invader3.png', 'invader4.png', 'invader5.png', 
+'invader6.png', 'invader7.png', 'invader8.png', 'invader9.png', 'invader10.png'];
 
 const keys = {
     a: {
