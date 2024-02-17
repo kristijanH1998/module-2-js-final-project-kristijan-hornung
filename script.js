@@ -57,11 +57,12 @@ class Player {
 }
 
 class Invader {
-    constructor({position, imageSrc}) {
+    constructor({position, imageSrc, color}) {
         this.velocity = {
             x: 0,
             y: 0
         };
+        this.color = color;
         const image = new Image();
         image.src = imageSrc;
         image.onload = () => {
@@ -129,7 +130,7 @@ class Grid {
                 this.invaders.push(new Invader({position: {
                     x: x * 30,
                     y: y * 30 
-                 }, imageSrc: invaderImages[level - 1]}));
+                 }, imageSrc: invaderImages[level - 1], color: colors[level - 1]}));
             }
         }
     }
@@ -421,6 +422,7 @@ let planet10 = new Planet({
 const planets = [planet1, planet2, planet3, planet4, planet5, planet6, planet7, planet8, planet9, planet10];
 const invaderImages = ['invader1.png', 'invader2.png', 'invader3.png', 'invader4.png', 'invader5.png', 
 'invader6.png', 'invader7.png', 'invader8.png', 'invader9.png', 'invader10.png'];
+const colors = ['yellow', 'blue', 'lightgreen', 'red', 'lightblue', 'orange', 'purple', 'orange', 'pink', 'yellow'];
 
 const keys = {
     a: {
@@ -697,7 +699,8 @@ function animate() {
 
                             createParticles({
                                 object: invader,
-                                fades: true
+                                fades: true,
+                                color: invader.color
                             });
                             grid.invaders.splice(i, 1);
                             projectiles.splice(j, 1);
