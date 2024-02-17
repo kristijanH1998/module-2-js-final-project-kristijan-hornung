@@ -111,14 +111,14 @@ class Invader {
 }
 
 class Grid {
-    constructor(){
+    constructor({velocity}){
         this.position = {
             x: 0,
             y: 0
         }
         this.velocity = {
-            x: 3,
-            y: 0
+            x: velocity.x,
+            y: velocity.y
         }
         this.invaders = [];
         const columns = Math.floor(Math.random() * 10 + 5);
@@ -127,8 +127,8 @@ class Grid {
         for(let x = 0; x < columns; x++) {
             for(let y = 0; y < rows; y++) {
                 this.invaders.push(new Invader({position: {
-                    x: x * 30,
-                    y: y * 30 
+                    x: x * 32,
+                    y: y * 32 
                  }, imageSrc: invaderImages[level - 1], color: colors[level - 1]}));
             }
         }
@@ -732,7 +732,7 @@ function animate() {
     }
     //spawning enemies
     if(frames1 % randomInterval === 0){
-        grids.push(new Grid());
+        grids.push(new Grid({velocity: {x: 0.5 * level, y: 0}}));
         randomInterval = Math.floor((Math.random() * 500) + 500);
         frames1 = 0;
     }
