@@ -1,4 +1,5 @@
 const scoreEl = document.querySelector('#scoreEl');
+const levelEl = document.querySelector('#levelEl');
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
@@ -443,6 +444,7 @@ let game = {
 }
 
 let score = 0;
+let level = 1;
 
 //background stars
 for(let i = 0; i < 100; i++){
@@ -490,6 +492,15 @@ function createParticles({object, color, fades}) {
         }))
     }
 }
+
+function checkLevelUp(score){
+    for(let k = 1; k < 10; k++){
+        if(score >= (k * 1000) && score < ((k + 1) * 1000)) {
+            level = (k + 1);
+            levelEl.innerHTML = level;
+        }
+    }
+};
 
 function animate() {
     if(!game.active) return;
@@ -544,8 +555,11 @@ function animate() {
                     const projectileFound = projectiles.find(projectile3 => projectile3 === projectile);
                     //remove asteroid and projectile
                     if(asteroidFound && projectileFound) {
+                        //test conditions for leveling up
                         score += 50;
+                        checkLevelUp(score);
                         scoreEl.innerHTML = score;
+
                         createParticles({
                             object: asteroid,
                             color: 'grey', 
@@ -674,8 +688,11 @@ function animate() {
                             let invaderKilled = new Audio('invaderkilled.wav');
                             invaderKilled.play();
 
+                            //update score and test conditions for leveling up
                             score += 100;
+                            checkLevelUp(score);
                             scoreEl.innerHTML = score;
+
                             createParticles({
                                 object: invader,
                                 fades: true
