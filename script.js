@@ -467,9 +467,8 @@ for(let i = 0; i < 100; i++){
     }))
 }
 
-function createAsteroids (count) {
-    //create asteroids
-    for(let i = 0; i < count; i++){
+function updateAsteroids() {
+    while(asteroids.length < asteroidCount){
         let randomAsteroidStartPosition = -((Math.random() * 1000) + 100);
         //console.log(randomAsteroidStartPosition)
         asteroids.push(new Asteroid({
@@ -480,8 +479,9 @@ function createAsteroids (count) {
             imageSrc: level <= 3 ? './asteroid.png' : (
                 level <= 7 ? './brown-asteroid.png' : './fire-asteroid.png'),
             scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04) 
-        }))
-    };
+        }));
+    }
+    console.log(asteroids.length)
 }
 
 //explosion particles
@@ -508,16 +508,17 @@ function checkLevelUp(score){
         if(score >= (k * 1000) && score < ((k + 1) * 1000)) {
             level = (k + 1);
             levelEl.innerHTML = level;
+            asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
         }
     }
 };
 
+updateAsteroids();
 function animate() {
     if(!game.active) return;
     requestAnimationFrame(animate);
     c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width, canvas.height);
-
     backgroundStars.forEach((star) => {
         //background stars rendered
         if(star.position.y - star.radius >= canvas.height) {
@@ -578,15 +579,7 @@ function animate() {
                         asteroids.splice(index, 1);
                         let respawnAsteroidTime = Math.floor(Math.random() * 10) + 1;
                         setTimeout(() => {
-                            asteroids.push(new Asteroid({
-                                position: {
-                                    x: Math.random() * canvas.width,
-                                    y: -50
-                                },
-                                imageSrc: level <= 3 ? './asteroid.png' : (
-                                    level <= 7 ? './brown-asteroid.png' : './fire-asteroid.png'),
-                                scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04) 
-                            }));
+                            updateAsteroids(); //update asteroid number after one asteroid was eliminated
                         }, respawnAsteroidTime * 1000);
                         projectiles.splice(j, 1);
                     }
@@ -630,18 +623,6 @@ function animate() {
         
     });
 
-    //keep asteroidCount updated as level increases and make sure number of asteroids in the game is also 
-    //adjusted to the level (higher level = more asteroids)
-    if(3 < level <= 7) {
-        asteroidCount = 4;
-    } else if(7 < level) {
-        asteroidCount = 6;
-    }
-    if(asteroids.length < asteroidCount){
-        createAsteroids(asteroidCount - asteroids.length);
-    }
-
-    
     InvaderProjectiles.forEach((InvaderProjectile, index) => {
         if(InvaderProjectile.position.y + InvaderProjectile.height
             >= canvas.height) {
@@ -698,45 +679,47 @@ function animate() {
 
             //projectiles hit enemy
             projectiles.forEach((projectile, j) => {
-                if(projectile.position.y - projectile.radius <= invader.position.y + invader.height
-                    && projectile.position.x + projectile.radius >= invader.position.x
-                    && projectile.position.x - projectile.radius <= invader.position.x + invader.width
-                    && projectile.position.y + projectile.radius >= invader.position.y){
-                    
-                    setTimeout(() => {
-                        const invaderFound = grid.invaders.find(invader2 => {
-                            return invader2 === invader;
-                        });
-                        const projectileFound = projectiles.find(projectile2 => projectile2 === projectile);
-                        //remove invader and projectile
-                        if(invaderFound && projectileFound) {
-
-                            let invaderKilled = new Audio('invaderkilled.wav');
-                            invaderKilled.play();
-
-                            //update score and test conditions for leveling up
-                            score += 100;
-                            checkLevelUp(score);
-                            scoreEl.innerHTML = score;
-
-                            createParticles({
-                                object: invader,
-                                fades: true,
-                                color: invader.color
+                if(projectile.position && invader.position){
+                    if(projectile.position.y - projectile.radius <= invader.position.y + invader.height
+                        && projectile.position.x + projectile.radius >= invader.position.x
+                        && projectile.position.x - projectile.radius <= invader.position.x + invader.width
+                        && projectile.position.y + projectile.radius >= invader.position.y){
+                        
+                        setTimeout(() => {
+                            const invaderFound = grid.invaders.find(invader2 => {
+                                return invader2 === invader;
                             });
-                            grid.invaders.splice(i, 1);
-                            projectiles.splice(j, 1);
-                            if(grid.invaders.length > 0) {
-                                const firstInvader = grid.invaders[0];
-                                const lastInvader = grid.invaders[grid.invaders.length - 1];
-                                grid.width = lastInvader.position.x - firstInvader.position.x
-                                + lastInvader.width;
-                                grid.position.x = firstInvader.position.x;
-                            } else {
-                                grids.splice(gridIndex, 1);
+                            const projectileFound = projectiles.find(projectile2 => projectile2 === projectile);
+                            //remove invader and projectile
+                            if(invaderFound && projectileFound) {
+    
+                                let invaderKilled = new Audio('invaderkilled.wav');
+                                invaderKilled.play();
+    
+                                //update score and test conditions for leveling up
+                                score += 100;
+                                checkLevelUp(score);
+                                scoreEl.innerHTML = score;
+    
+                                createParticles({
+                                    object: invader,
+                                    fades: true,
+                                    color: invader.color
+                                });
+                                grid.invaders.splice(i, 1);
+                                projectiles.splice(j, 1);
+                                if(grid.invaders.length > 0) {
+                                    const firstInvader = grid.invaders[0];
+                                    const lastInvader = grid.invaders[grid.invaders.length - 1];
+                                    grid.width = lastInvader.position.x - firstInvader.position.x
+                                    + lastInvader.width;
+                                    grid.position.x = firstInvader.position.x;
+                                } else {
+                                    grids.splice(gridIndex, 1);
+                                }
                             }
-                        }
-                    }, 0);
+                        }, 0);
+                    }
                 }
             });
         })
