@@ -214,16 +214,16 @@ class InvaderProjectile {
 }
 
 class Asteroid {
-    constructor({position}) {
+    constructor({position, imageSrc, scale}) {
         //this.position = position;
         this.velocity = {
             x: 0,
             y: Math.random() * 2.5 + 0.5
         };
         const image = new Image();
-        image.src = './asteroid.png';
+        image.src = imageSrc;
+        this.scale = scale;
         image.onload = () => {
-            const scale = 0.1;
             this.image = image;
             this.width = image.width * scale;
             this.height = image.height * scale;
@@ -449,6 +449,7 @@ let game = {
 let score = 0;
 let level = 1;
 
+
 //background stars
 for(let i = 0; i < 100; i++){
     backgroundStars.push(new Particle({
@@ -473,7 +474,10 @@ for(let i = 0; i < 2; i++){
         position: {
             x: Math.random() * canvas.width,
             y: randomAsteroidStartPosition
-        }
+        },
+        imageSrc: level <= 3 ? './asteroid.png' : (
+            level <= 7 ? './brown-asteroid.png' : './fire-asteroid.png'),
+        scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04) 
     }))
 };
 
@@ -575,7 +579,10 @@ function animate() {
                                 position: {
                                     x: Math.random() * canvas.width,
                                     y: -50
-                                }
+                                },
+                                imageSrc: level <= 3 ? './asteroid.png' : (
+                                    level <= 7 ? './brown-asteroid.png' : './fire-asteroid.png'),
+                                scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04) 
                             }));
                         }, respawnAsteroidTime * 1000);
                         projectiles.splice(j, 1);
