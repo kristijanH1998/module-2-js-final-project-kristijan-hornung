@@ -214,11 +214,11 @@ class InvaderProjectile {
 }
 
 class Asteroid {
-    constructor({position, imageSrc, scale}) {
+    constructor({position, imageSrc, scale, speed}) {
         //this.position = position;
         this.velocity = {
             x: 0,
-            y: Math.random() * 2.5 + 0.5
+            y: speed
         };
         const image = new Image();
         image.src = imageSrc;
@@ -449,7 +449,7 @@ let game = {
 let score = 0;
 let level = 1;
 let asteroidCount = 2;
-
+let asteroidSpeed = 1;
 
 //background stars
 for(let i = 0; i < 100; i++){
@@ -478,10 +478,11 @@ function updateAsteroids() {
             },
             imageSrc: level <= 3 ? './asteroid.png' : (
                 level <= 7 ? './brown-asteroid.png' : './fire-asteroid.png'),
-            scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04) 
+            scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04), 
+            speed: asteroidSpeed 
         }));
     }
-    console.log(asteroids.length)
+    //console.log(asteroids.length)
 }
 
 //explosion particles
@@ -509,6 +510,7 @@ function checkLevelUp(score){
             level = (k + 1);
             levelEl.innerHTML = level;
             asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
+            asteroidSpeed = (level <= 3) ? 2 : ((level <= 7) ? 3 : 4);
         }
     }
 };
