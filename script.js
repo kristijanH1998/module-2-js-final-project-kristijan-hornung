@@ -448,6 +448,7 @@ let game = {
 
 let score = 0;
 let level = 1;
+let asteroidCount = 2;
 
 
 //background stars
@@ -466,20 +467,22 @@ for(let i = 0; i < 100; i++){
     }))
 }
 
-//create asteroids
-for(let i = 0; i < 2; i++){
-    let randomAsteroidStartPosition = -((Math.random() * 1000) + 100);
-    //console.log(randomAsteroidStartPosition)
-    asteroids.push(new Asteroid({
-        position: {
-            x: Math.random() * canvas.width,
-            y: randomAsteroidStartPosition
-        },
-        imageSrc: level <= 3 ? './asteroid.png' : (
-            level <= 7 ? './brown-asteroid.png' : './fire-asteroid.png'),
-        scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04) 
-    }))
-};
+function createAsteroids (count) {
+    //create asteroids
+    for(let i = 0; i < count; i++){
+        let randomAsteroidStartPosition = -((Math.random() * 1000) + 100);
+        //console.log(randomAsteroidStartPosition)
+        asteroids.push(new Asteroid({
+            position: {
+                x: Math.random() * canvas.width,
+                y: randomAsteroidStartPosition
+            },
+            imageSrc: level <= 3 ? './asteroid.png' : (
+                level <= 7 ? './brown-asteroid.png' : './fire-asteroid.png'),
+            scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04) 
+        }))
+    };
+}
 
 //explosion particles
 function createParticles({object, color, fades}) {
@@ -627,6 +630,18 @@ function animate() {
         
     });
 
+    //keep asteroidCount updated as level increases and make sure number of asteroids in the game is also 
+    //adjusted to the level (higher level = more asteroids)
+    if(3 < level <= 7) {
+        asteroidCount = 4;
+    } else if(7 < level) {
+        asteroidCount = 6;
+    }
+    if(asteroids.length < asteroidCount){
+        createAsteroids(asteroidCount - asteroids.length);
+    }
+
+    
     InvaderProjectiles.forEach((InvaderProjectile, index) => {
         if(InvaderProjectile.position.y + InvaderProjectile.height
             >= canvas.height) {
