@@ -86,7 +86,6 @@ class Invader {
                         this.height);
         }
     }
-
     update({velocity}) {
         if(this.image) {
             this.draw();
@@ -95,7 +94,6 @@ class Invader {
         }
     
     }
-
     shoot(InvaderProjectiles){
         InvaderProjectiles.push(new InvaderProjectile({
             position: {
@@ -129,7 +127,7 @@ class Grid {
                 this.invaders.push(new Invader({position: {
                     x: x * 32,
                     y: y * 32 
-                 }, imageSrc: invaderImages[level - 1], color: colors[level - 1]}));
+                 }, imageSrc: enemyImages[level - 1], color: colors[level - 1]}));
             }
         }
     }
@@ -291,6 +289,39 @@ class Planet extends Asteroid{
     }
 }
 
+class Boss extends Invader {
+    constructor({position, imageSrc, color, width, height}) {
+        super({position});
+        this.velocity = {
+            x: 0,
+            y: 0
+        };
+        this.isDestroyed = false;
+        this.color = color;
+        const image = new Image();
+        image.src = imageSrc;
+        image.onload = () => {
+            this.image = image;
+            this.width = width;
+            this.height = height;
+            this.position = {
+                x: position.x,
+                y: position.y
+            };
+        }
+    }
+
+    update({velocity}) {
+        if(this.image) {
+            this.draw();
+            this.position.x += velocity.x;
+            if(this.position.x + this.width >= canvas.width || this.position.x <= 0){
+                this.velocity.x = -this.velocity.x;
+            }
+        }    
+    }
+}
+
 const player = new Player();
 const projectiles = [];
 const grids = [];
@@ -298,6 +329,24 @@ const InvaderProjectiles = [];
 const particles = [];
 const backgroundStars = [];
 const asteroids = [];
+
+const enemyImages = ['invader1.png', 'invader2.png', 'invader3.png', 'invader4.png', 'invader5.png', 'boss1.png',
+'invader6.png', 'invader7.png', 'invader8.png', 'invader9.png', 'invader10.png', 'boss2.png'];
+const colors = ['yellow', 'blue', 'lightgreen', 'red', 'lightblue', 'white', 'orange', 'purple', 'orange', 'pink', 'yellow', 'lightgreen'];
+let score = 0;
+let level = 1;
+let asteroidCount = 2;
+let asteroidSpeed = 1;
+
+const bosses = [new Boss({position: {
+                    x: 400,
+                    y: 100 
+                }, imageSrc: enemyImages[5], color: colors[5], width: 400, height: 200}), 
+                new Boss({position: {
+                    x: 400,
+                    y: 100 
+                }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200})]
+
 let planet1 = new Planet({
     position: {
         x: 100,
@@ -419,9 +468,6 @@ let planet10 = new Planet({
     }
 });
 const planets = [planet1, planet2, planet3, planet4, planet5, planet6, planet7, planet8, planet9, planet10];
-const invaderImages = ['invader1.png', 'invader2.png', 'invader3.png', 'invader4.png', 'invader5.png', 
-'invader6.png', 'invader7.png', 'invader8.png', 'invader9.png', 'invader10.png'];
-const colors = ['yellow', 'blue', 'lightgreen', 'red', 'lightblue', 'orange', 'purple', 'orange', 'pink', 'yellow'];
 
 const keys = {
     a: {
@@ -445,11 +491,6 @@ let game = {
     over: false,
     active: true
 }
-
-let score = 0;
-let level = 1;
-let asteroidCount = 2;
-let asteroidSpeed = 1;
 
 //background stars
 for(let i = 0; i < 100; i++){
@@ -505,7 +546,7 @@ function createParticles({object, color, fades}) {
 }
 
 function checkLevelUp(score){
-    for(let k = 1; k < 10; k++){
+    for(let k = 1; k < 12; k++){
         if(score >= (k * 1000) && score < ((k + 1) * 1000)) {
             level = (k + 1);
             levelEl.innerHTML = level;
@@ -670,7 +711,7 @@ function animate() {
     grids.forEach((grid, gridIndex) => {
         grid.update();
         //spawn projectiles
-        let invaderFirerate = 120 - (level * 10);
+        let invaderFirerate = 140 - (level * 10);
         if(frames1 % invaderFirerate === 0 && grid.invaders.length > 0) {
             grid.invaders[Math.floor(Math.random() * grid.invaders.length)].shoot(InvaderProjectiles);
             let invaderShoot = new Audio('fastinvader1.wav');
@@ -727,6 +768,13 @@ function animate() {
         })
     });
 
+    if(level === 6 && !bosses[0].isDestroyed) {
+        bosses[0].update({velocity: {
+            x: 5,
+            y: 0
+        }}); 
+    }
+
     if (keys.a.pressed && player.position.x >= 0){
         player.velocity.x = -5;
         player.rotation = -.15;
@@ -739,9 +787,12 @@ function animate() {
     }
     //spawning enemies
     if(frames1 % randomInterval === 0){
-        grids.push(new Grid({velocity: {x: 0.5 * level, y: 0}}));
-        randomInterval = Math.floor((Math.random() * 500) + 500);
-        frames1 = 0;
+        //on levels 6 and 12 no grids of invaders will spawn, but intead bosses attack the player
+        if(level !== 6 && level !== 12){
+            grids.push(new Grid({velocity: {x: 0.5 * level, y: 0}}));
+            randomInterval = Math.floor((Math.random() * 500) + 500);
+            frames1 = 0;
+        } 
     }
     //spawning planets at random intervals with random positions on x-axis and random velocities
     if(frames2 % planetRespawnInterval === 0){
