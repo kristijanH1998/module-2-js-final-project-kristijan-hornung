@@ -289,14 +289,13 @@ class Planet extends Asteroid{
     }
 }
 
-class Boss extends Invader {
+class Boss {
     constructor({position, imageSrc, color, width, height}) {
-        super({position});
         this.velocity = {
-            x: 0,
+            x: 2,
             y: 0
         };
-        this.isDestroyed = false;
+        this.isDestroyed = true;
         this.color = color;
         const image = new Image();
         image.src = imageSrc;
@@ -310,11 +309,19 @@ class Boss extends Invader {
             };
         }
     }
-
-    update({velocity}) {
+    draw(){
+        if(this.image){
+            c.drawImage(this.image, 
+                        this.position.x, 
+                        this.position.y, 
+                        this.width, 
+                        this.height);
+        }
+    }
+    update() {
         if(this.image) {
             this.draw();
-            this.position.x += velocity.x;
+            this.position.x += this.velocity.x;
             if(this.position.x + this.width >= canvas.width || this.position.x <= 0){
                 this.velocity.x = -this.velocity.x;
             }
@@ -340,11 +347,11 @@ let asteroidSpeed = 1;
 
 const bosses = [new Boss({position: {
                     x: 400,
-                    y: 100 
+                    y: 50 
                 }, imageSrc: enemyImages[5], color: colors[5], width: 400, height: 200}), 
                 new Boss({position: {
                     x: 400,
-                    y: 100 
+                    y: 50 
                 }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200})]
 
 let planet1 = new Planet({
@@ -548,10 +555,13 @@ function createParticles({object, color, fades}) {
 function checkLevelUp(score){
     for(let k = 1; k < 12; k++){
         if(score >= (k * 1000) && score < ((k + 1) * 1000)) {
-            level = (k + 1);
-            levelEl.innerHTML = level;
-            asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
-            asteroidSpeed = (level <= 3) ? 2 : ((level <= 7) ? 3 : 4);
+            //only enable leveling up when both bosses are destroyed/not present
+            if(bosses[0].isDestroyed && bosses[1].isDestroyed){
+                level = (k + 1);
+                levelEl.innerHTML = level;
+                asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
+                asteroidSpeed = (level <= 3) ? 2 : ((level <= 7) ? 3 : 4);
+            }  
         }
     }
 };
@@ -768,11 +778,18 @@ function animate() {
         })
     });
 
-    if(level === 6 && !bosses[0].isDestroyed) {
-        bosses[0].update({velocity: {
-            x: 5,
-            y: 0
-        }}); 
+    //enable rendering of bosses on levels 6 and 12, until they are destroyed
+    if(level == 6) {
+        bosses[0].isDestroyed = false;
+    }
+    if(level >= 6 && !bosses[0].isDestroyed) {
+        bosses[0].update();
+    }
+    if(level == 12) {
+        bosses[0].isDestroyed = false;
+    }
+    if(!bosses[1].isDestroyed) {
+        bosses[1].update();
     }
 
     if (keys.a.pressed && player.position.x >= 0){
@@ -788,7 +805,7 @@ function animate() {
     //spawning enemies
     if(frames1 % randomInterval === 0){
         //on levels 6 and 12 no grids of invaders will spawn, but intead bosses attack the player
-        if(level !== 6 && level !== 12){
+        if(level !== 6 && level !== 12 && bosses[0].isDestroyed && bosses[1].isDestroyed){
             grids.push(new Grid({velocity: {x: 0.5 * level, y: 0}}));
             randomInterval = Math.floor((Math.random() * 500) + 500);
             frames1 = 0;
