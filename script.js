@@ -211,6 +211,25 @@ class InvaderProjectile {
     }
 }
 
+class BossProjectile {
+    constructor({position, velocity}) {
+        this.position = position;
+        this.velocity = velocity;
+        this.width = 9;
+        this.height = 30;
+    }
+    draw() {
+        c.fillStyle = 'red';
+        c.fillRect(this.position.x, this.position.y,
+        this.width, this.height);
+    }
+    update(){
+        this.draw();
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+    }
+}
+
 class Asteroid {
     constructor({position, imageSrc, scale, speed}) {
         //this.position = position;
@@ -327,12 +346,43 @@ class Boss {
             }
         }    
     }
+    shoot(BossProjectiles){
+        BossProjectiles.push(new BossProjectile({
+            position: {
+                x: this.position.x + 300,
+                y: this.position.y + this.height
+            },
+            velocity: {
+                x: 5,
+                y: 30
+            }
+        }), new BossProjectile({
+            position: {
+                x: this.position.x + this.width - 310,
+                y: this.position.y + this.height
+            },
+            velocity: {
+                x: -5,
+                y: 30
+            }
+        }), new BossProjectile({
+            position: {
+                x: this.position.x + this.width / 2,
+                y: this.position.y + this.height
+            },
+            velocity: {
+                x: 0,
+                y: 10
+            }
+        }));
+    }
 }
 
 const player = new Player();
 const projectiles = [];
 const grids = [];
 const InvaderProjectiles = [];
+const BossProjectiles = [];
 const particles = [];
 const backgroundStars = [];
 const asteroids = [];
@@ -554,7 +604,7 @@ function createParticles({object, color, fades}) {
 
 function checkLevelUp(score){
     for(let k = 1; k < 12; k++){
-        if(score >= (k * 1000) && score < ((k + 1) * 1000)) {
+        if(score >= (k * 100) && score < ((k + 1) * 100)) {
             //only enable leveling up when both bosses are destroyed/not present
             if(bosses[0].isDestroyed && bosses[1].isDestroyed){
                 level = (k + 1);
@@ -778,15 +828,54 @@ function animate() {
         })
     });
 
+    BossProjectiles.forEach((BossProjectile, index) => {
+        if(BossProjectile.position.y + BossProjectile.height
+            >= canvas.height) {
+            setTimeout(() => {
+                //here we can't write 'BossProjectiles.splice(index, 1);' because when fast projectiles reach the bottom of the canvas; the index of the middle slower projectile
+                //changes from 1 to 0, and the middle projectile gets removed too early in the next phase of pushing new projectiles to the BossProjectiles array
+                BossProjectiles.splice(BossProjectiles.indexOf(BossProjectile), 1);
+            }, 0);
+        } else {
+            BossProjectile.update();
+        }
+        //projectile hits player
+        if(BossProjectile.position.y + BossProjectile.height >= player.position.y
+            && BossProjectile.position.x + BossProjectile.width >= player.position.x
+            && BossProjectile.position.x <= player.position.x + player.width){
+                let playerKilled = new Audio('explosion.wav');
+                playerKilled.play();
+                setTimeout(() => {
+                    BossProjectiles.splice(BossProjectiles.indexOf(BossProjectile), 1);
+                    player.opacity = 0;
+                    game.over = true;
+                }, 0);
+                setTimeout(() => {
+                    game.active = false;
+                }, 2000);
+                createParticles({
+                    object: player,
+                    color: 'white',
+                    fades: true
+                });
+        }
+    });
+
     //enable rendering of bosses on levels 6 and 12, until they are destroyed
     if(level == 6) {
         bosses[0].isDestroyed = false;
     }
     if(level >= 6 && !bosses[0].isDestroyed) {
         bosses[0].update();
+        let boss1Firerate = 50;
+        if(frames1 % boss1Firerate === 0) {
+            bosses[0].shoot(BossProjectiles);
+            let invaderShoot = new Audio('ufo_highpitch.wav');
+            invaderShoot.play();
+        }
     }
     if(level == 12) {
-        bosses[0].isDestroyed = false;
+        bosses[1].isDestroyed = false;
     }
     if(!bosses[1].isDestroyed) {
         bosses[1].update();
