@@ -212,14 +212,15 @@ class InvaderProjectile {
 }
 
 class BossProjectile {
-    constructor({position, velocity}) {
+    constructor({position, velocity, width, height, color}) {
         this.position = position;
         this.velocity = velocity;
-        this.width = 9;
-        this.height = 30;
+        this.width = width;
+        this.height = height;
+        this.color = color;
     }
     draw() {
-        c.fillStyle = 'red';
+        c.fillStyle = this.color;
         c.fillRect(this.position.x, this.position.y,
         this.width, this.height);
     }
@@ -358,7 +359,10 @@ class Boss {
                 velocity: {
                     x: 5,
                     y: 30
-                }
+                },
+                width: 9,
+                height: 30,
+                color: 'red'
             }), new BossProjectile({
                 position: {
                     x: this.position.x + this.width - 310,
@@ -367,7 +371,10 @@ class Boss {
                 velocity: {
                     x: -5,
                     y: 30
-                }
+                },
+                width: 9,
+                height: 30,
+                color: 'red'
             }), new BossProjectile({
                 position: {
                     x: this.position.x + this.width / 2,
@@ -376,21 +383,54 @@ class Boss {
                 velocity: {
                     x: 0,
                     y: 10
-                }
+                },
+                width: 9,
+                height: 30,
+                color: 'red'
             }));
         } else {
+            //delete Boss1's projectile objects from BossProjectiles, and add Boss2's
             BossProjectiles.splice(0, BossProjectiles.length);
             BossProjectiles.push(new BossProjectile({
                 position: {
-                    x: this.position.x + 300,
+                    x: this.position.x + this.width / 2 - 10,
                     y: this.position.y + this.height
                 },
                 velocity: {
-                    x: 5,
-                    y: 30
-                }
+                    x: 0,
+                    y: 0
+                },
+                width: 20,
+                height: 545,
+                color: 'lightblue'
+            }), new BossProjectile({
+                position: {
+                    x: this.position.x + 50,
+                    y: this.position.y + this.height
+                },
+                velocity: {
+                    x: 2,
+                    y: 10
+                },
+                width: 50,
+                height: 5,
+                color: 'purple'
+            }), new BossProjectile({
+                position: {
+                    x: this.position.x + this.width - 50,
+                    y: this.position.y + this.height
+                },
+                velocity: {
+                    x: -2,
+                    y: 10
+                },
+                width: 50,
+                height: 5,
+                color: 'purple'
             }));
         }
+    }
+    shootLaser(bossLaser){
         
     }
 }
@@ -850,15 +890,12 @@ function animate() {
     }
     if(level == 12 && !bosses[0].isDestroyed) {
         bosses[0].update();
-        let boss2Firerate = 30;
+        let boss2Firerate = 2;
         if(frames3 % boss2Firerate === 0) {
             bosses[0].shoot(BossProjectiles);
-            let bossShoot = new Audio('ufo_highpitch.wav');
-            bossShoot.play();
             frames3 = 0;
         }
     }
-
 
     bosses.forEach((boss, bossIndex) => {
         //player shoots at the boss
@@ -876,12 +913,9 @@ function animate() {
                         const projectileFound = projectiles.find(projectile4 => projectile4 === projectile);
                         //remove projectile
                         if(bossFound && projectileFound) {
-    
                             let bossDamaged = new Audio('invaderkilled.wav');
                             bossDamaged.play();
                             boss.shotsTaken++;
-                            
-                            
                             //test if boss has been shot at enough times, if yes then boss is destroyed
                             if(boss.shotsTaken >= boss.endurance) {
                                 createParticles({
