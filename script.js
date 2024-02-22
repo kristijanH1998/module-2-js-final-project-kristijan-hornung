@@ -349,34 +349,49 @@ class Boss {
         }    
     }
     shoot(BossProjectiles){
-        BossProjectiles.push(new BossProjectile({
-            position: {
-                x: this.position.x + 300,
-                y: this.position.y + this.height
-            },
-            velocity: {
-                x: 5,
-                y: 30
-            }
-        }), new BossProjectile({
-            position: {
-                x: this.position.x + this.width - 310,
-                y: this.position.y + this.height
-            },
-            velocity: {
-                x: -5,
-                y: 30
-            }
-        }), new BossProjectile({
-            position: {
-                x: this.position.x + this.width / 2,
-                y: this.position.y + this.height
-            },
-            velocity: {
-                x: 0,
-                y: 10
-            }
-        }));
+        if(level === 6) {
+            BossProjectiles.push(new BossProjectile({
+                position: {
+                    x: this.position.x + 300,
+                    y: this.position.y + this.height
+                },
+                velocity: {
+                    x: 5,
+                    y: 30
+                }
+            }), new BossProjectile({
+                position: {
+                    x: this.position.x + this.width - 310,
+                    y: this.position.y + this.height
+                },
+                velocity: {
+                    x: -5,
+                    y: 30
+                }
+            }), new BossProjectile({
+                position: {
+                    x: this.position.x + this.width / 2,
+                    y: this.position.y + this.height
+                },
+                velocity: {
+                    x: 0,
+                    y: 10
+                }
+            }));
+        } else {
+            BossProjectiles.splice(0, BossProjectiles.length);
+            BossProjectiles.push(new BossProjectile({
+                position: {
+                    x: this.position.x + 300,
+                    y: this.position.y + this.height
+                },
+                velocity: {
+                    x: 5,
+                    y: 30
+                }
+            }));
+        }
+        
     }
 }
 
@@ -582,7 +597,7 @@ function updateAsteroids() {
 }
 
 //explosion particles
-function createParticles({object, color, fades}) {
+function createParticles({object, color, fades, radius}) {
     for(let i = 0; i < 15; i++){
         particles.push(new Particle({
             position: {
@@ -593,7 +608,7 @@ function createParticles({object, color, fades}) {
                 x: (Math.random() - 0.5) * 2,
                 y: (Math.random() - 0.5) * 2
             },
-            radius: Math.random() * 3,
+            radius: radius || Math.random() * 3,
             color: color || '#BAA0DE',
             fades: fades
         }))
@@ -831,7 +846,7 @@ function animate() {
         bosses.push(new Boss({position: {
             x: 400,
             y: 50 
-        }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 200}));
+        }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 1}));
     }
     if(level == 12 && !bosses[0].isDestroyed) {
         bosses[0].update();
@@ -872,7 +887,8 @@ function animate() {
                                 createParticles({
                                     object: boss,
                                     fades: true,
-                                    color: boss.color
+                                    color: boss.color,
+                                    radius: 20
                                 });
                                 boss.isDestroyed = true;
                                 level++;
