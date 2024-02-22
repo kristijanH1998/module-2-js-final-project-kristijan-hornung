@@ -309,13 +309,15 @@ class Planet extends Asteroid{
 }
 
 class Boss {
-    constructor({position, imageSrc, color, width, height}) {
+    constructor({position, imageSrc, color, width, height, endurance}) {
         this.velocity = {
             x: 2,
             y: 0
         };
-        this.isDestroyed = true;
+        this.isDestroyed = false;
         this.color = color;
+        this.shotsTaken = 0;
+        this.endurance = endurance;
         const image = new Image();
         image.src = imageSrc;
         image.onload = () => {
@@ -395,14 +397,7 @@ let level = 1;
 let asteroidCount = 2;
 let asteroidSpeed = 1;
 
-const bosses = [new Boss({position: {
-                    x: 400,
-                    y: 50 
-                }, imageSrc: enemyImages[5], color: colors[5], width: 400, height: 200}), 
-                new Boss({position: {
-                    x: 400,
-                    y: 50 
-                }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200})]
+const bosses = [];
 
 let planet1 = new Planet({
     position: {
@@ -540,6 +535,9 @@ const keys = {
 
 let frames1 = 0;
 let frames2 = 0;
+let frames3 = 0;
+let frames4 = 0;
+
 
 let randomInterval = Math.floor((Math.random() * 500) + 500);
 let planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
@@ -602,20 +600,6 @@ function createParticles({object, color, fades}) {
     }
 }
 
-function checkLevelUp(score){
-    for(let k = 1; k < 12; k++){
-        if(score >= (k * 100) && score < ((k + 1) * 100)) {
-            //only enable leveling up when both bosses are destroyed/not present
-            if(bosses[0].isDestroyed && bosses[1].isDestroyed){
-                level = (k + 1);
-                levelEl.innerHTML = level;
-                asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
-                asteroidSpeed = (level <= 3) ? 2 : ((level <= 7) ? 3 : 4);
-            }  
-        }
-    }
-};
-
 updateAsteroids();
 function animate() {
     if(!game.active) return;
@@ -669,9 +653,7 @@ function animate() {
                     const projectileFound = projectiles.find(projectile3 => projectile3 === projectile);
                     //remove asteroid and projectile
                     if(asteroidFound && projectileFound) {
-                        //test conditions for leveling up
                         score += 50;
-                        checkLevelUp(score);
                         scoreEl.innerHTML = score;
 
                         createParticles({
@@ -799,9 +781,8 @@ function animate() {
                                 let invaderKilled = new Audio('invaderkilled.wav');
                                 invaderKilled.play();
     
-                                //update score and test conditions for leveling up
+                                //update score
                                 score += 100;
-                                checkLevelUp(score);
                                 scoreEl.innerHTML = score;
     
                                 createParticles({
@@ -827,6 +808,82 @@ function animate() {
             });
         })
     });
+
+
+    //enable rendering of bosses on levels 6 and 12, until they are destroyed
+    if(level == 6 && (bosses.length === 0)) {
+        bosses.push(new Boss({position: {
+            x: 400,
+            y: 50 
+        }, imageSrc: enemyImages[5], color: colors[5], width: 400, height: 200, endurance: 1}));
+    }
+    if(level == 6 && !bosses[0].isDestroyed) {
+        bosses[0].update();
+        let boss1Firerate = 50;
+        if(frames3 % boss1Firerate === 0) {
+            bosses[0].shoot(BossProjectiles);
+            let bossShoot = new Audio('ufo_highpitch.wav');
+            bossShoot.play();
+            frames3 = 0;
+        }
+    }
+    // if(level == 12 && (bosses.length === 0)) {
+    //     bosses.push(new Boss({position: {
+    //         x: 400,
+    //         y: 50 
+    //     }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 200}));
+    // }
+    // if(!bosses[0].isDestroyed) {
+    //     bosses[0].update();
+    // }
+
+
+    bosses.forEach((boss, bossIndex) => {
+        
+        
+        //player shoots at the boss
+        projectiles.forEach((projectile, j) => {
+            if(projectile.position && boss.position){
+                if(projectile.position.y - projectile.radius <= boss.position.y + boss.height
+                    && projectile.position.x + projectile.radius >= boss.position.x
+                    && projectile.position.x - projectile.radius <= boss.position.x + boss.width
+                    && projectile.position.y + projectile.radius >= boss.position.y){
+                    
+                    setTimeout(() => {
+                        const bossFound = bosses.find(bossShot => {
+                            return bossShot === boss;
+                        });
+                        const projectileFound = projectiles.find(projectile4 => projectile4 === projectile);
+                        //remove projectile
+                        if(bossFound && projectileFound) {
+    
+                            let bossDamaged = new Audio('invaderkilled.wav');
+                            bossDamaged.play();
+                            boss.shotsTaken++;
+                            
+                            
+                            //test if boss has been shot at enough times, if yes then boss is destroyed
+                            if(boss.shotsTaken >= boss.endurance) {
+                                createParticles({
+                                    object: boss,
+                                    fades: true,
+                                    color: boss.color
+                                });
+                                boss.isDestroyed = true;
+                                level++;
+                                levelEl.innerHTML = level;
+                                bosses.splice(bossIndex, 1);
+                                let bossDestroyed = new Audio('explosion.wav');
+                                bossDestroyed.play();
+                            }
+                            projectiles.splice(j, 1);
+                        }
+                    }, 0);
+                }
+            }
+        });
+    });
+    
 
     BossProjectiles.forEach((BossProjectile, index) => {
         if(BossProjectile.position.y + BossProjectile.height
@@ -861,26 +918,6 @@ function animate() {
         }
     });
 
-    //enable rendering of bosses on levels 6 and 12, until they are destroyed
-    if(level == 6) {
-        bosses[0].isDestroyed = false;
-    }
-    if(level >= 6 && !bosses[0].isDestroyed) {
-        bosses[0].update();
-        let boss1Firerate = 50;
-        if(frames1 % boss1Firerate === 0) {
-            bosses[0].shoot(BossProjectiles);
-            let invaderShoot = new Audio('ufo_highpitch.wav');
-            invaderShoot.play();
-        }
-    }
-    if(level == 12) {
-        bosses[1].isDestroyed = false;
-    }
-    if(!bosses[1].isDestroyed) {
-        bosses[1].update();
-    }
-
     if (keys.a.pressed && player.position.x >= 0){
         player.velocity.x = -5;
         player.rotation = -.15;
@@ -894,7 +931,7 @@ function animate() {
     //spawning enemies
     if(frames1 % randomInterval === 0){
         //on levels 6 and 12 no grids of invaders will spawn, but intead bosses attack the player
-        if(level !== 6 && level !== 12 && bosses[0].isDestroyed && bosses[1].isDestroyed){
+        if(level !== 6 && level !== 12){
             grids.push(new Grid({velocity: {x: 0.5 * level, y: 0}}));
             randomInterval = Math.floor((Math.random() * 500) + 500);
             frames1 = 0;
@@ -910,8 +947,19 @@ function animate() {
         planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
         frames2 = 0;
     }
+    //frames4 % 60 === 0 will execute the code in the if statement every 1 second (due to 60hz per second refresh rate)
+    if(level <= 12 && (frames4 % 1800 === 0) && (frames4 !== 0)) {
+        level++;
+        levelEl.innerHTML = level;
+        asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
+        asteroidSpeed = (level <= 3) ? 2 : ((level <= 7) ? 3 : 4);
+        frames4 = 0;
+    }
+
     frames1++;
     frames2++;
+    frames3++;
+    frames4++;
 }
 animate();
 
