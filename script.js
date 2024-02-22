@@ -827,20 +827,25 @@ function animate() {
             frames3 = 0;
         }
     }
-    // if(level == 12 && (bosses.length === 0)) {
-    //     bosses.push(new Boss({position: {
-    //         x: 400,
-    //         y: 50 
-    //     }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 200}));
-    // }
-    // if(!bosses[0].isDestroyed) {
-    //     bosses[0].update();
-    // }
+    if(level == 12 && (bosses.length === 0)) {
+        bosses.push(new Boss({position: {
+            x: 400,
+            y: 50 
+        }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 200}));
+    }
+    if(level == 12 && !bosses[0].isDestroyed) {
+        bosses[0].update();
+        let boss2Firerate = 30;
+        if(frames3 % boss2Firerate === 0) {
+            bosses[0].shoot(BossProjectiles);
+            let bossShoot = new Audio('ufo_highpitch.wav');
+            bossShoot.play();
+            frames3 = 0;
+        }
+    }
 
 
     bosses.forEach((boss, bossIndex) => {
-        
-        
         //player shoots at the boss
         projectiles.forEach((projectile, j) => {
             if(projectile.position && boss.position){
@@ -948,14 +953,13 @@ function animate() {
         frames2 = 0;
     }
     //frames4 % 60 === 0 will execute the code in the if statement every 1 second (due to 60hz per second refresh rate)
-    if(level <= 12 && (frames4 % 1800 === 0) && (frames4 !== 0)) {
+    if((level < 12) && (frames4 % 60 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
         level++;
         levelEl.innerHTML = level;
         asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
         asteroidSpeed = (level <= 3) ? 2 : ((level <= 7) ? 3 : 4);
         frames4 = 0;
     }
-
     frames1++;
     frames2++;
     frames3++;
