@@ -231,6 +231,17 @@ class BossProjectile {
     }
 }
 
+class BossLaser extends BossProjectile{
+    constructor({position, velocity, width, height, color}) {
+        super({position, velocity, width, height, color});
+    }
+    update({velocity}){
+        this.draw();
+        this.position.x += velocity.x;
+        this.position.y += velocity.y;
+    }
+}
+
 class Asteroid {
     constructor({position, imageSrc, scale, speed}) {
         //this.position = position;
@@ -330,6 +341,22 @@ class Boss {
                 y: position.y
             };
         }
+        this.lasers = [];
+        if(level === 12){
+            this.lasers.push(new BossLaser({
+                position: {
+                    x: position.x + width / 2 - 10,
+                    y: position.y + height
+                },
+                velocity: {
+                    x: this.velocity.x,
+                    y: 0
+                },
+                width: 20,
+                height: 545,
+                color: 'lightblue'
+            }));
+        }
     }
     draw(){
         if(this.image){
@@ -393,18 +420,6 @@ class Boss {
             BossProjectiles.splice(0, BossProjectiles.length);
             BossProjectiles.push(new BossProjectile({
                 position: {
-                    x: this.position.x + this.width / 2 - 10,
-                    y: this.position.y + this.height
-                },
-                velocity: {
-                    x: 0,
-                    y: 0
-                },
-                width: 20,
-                height: 545,
-                color: 'lightblue'
-            }), new BossProjectile({
-                position: {
                     x: this.position.x + 50,
                     y: this.position.y + this.height
                 },
@@ -429,9 +444,6 @@ class Boss {
                 color: 'purple'
             }));
         }
-    }
-    shootLaser(bossLaser){
-        
     }
 }
 
@@ -890,7 +902,11 @@ function animate() {
     }
     if(level == 12 && !bosses[0].isDestroyed) {
         bosses[0].update();
-        let boss2Firerate = 2;
+
+        bosses[0].lasers.forEach((laser) => laser.update({velocity: bosses[0].velocity}));
+
+
+        let boss2Firerate = 80;
         if(frames3 % boss2Firerate === 0) {
             bosses[0].shoot(BossProjectiles);
             frames3 = 0;
@@ -939,7 +955,6 @@ function animate() {
         });
     });
     
-
     BossProjectiles.forEach((BossProjectile, index) => {
         if(BossProjectile.position.y + BossProjectile.height
             >= canvas.height) {
