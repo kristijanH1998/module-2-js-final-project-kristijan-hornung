@@ -1,5 +1,6 @@
 const scoreEl = document.querySelector('#scoreEl');
 const levelEl = document.querySelector('#levelEl');
+const livesEl = document.querySelector('#livesEl');
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
@@ -457,6 +458,7 @@ const enemyImages = ['invader1.png', 'invader2.png', 'invader3.png', 'invader4.p
 const colors = ['yellow', 'blue', 'lightgreen', 'red', 'lightblue', 'white', 'orange', 'purple', 'orange', 'pink', 'yellow', 'lightgreen'];
 let score = 0;
 let level = 1;
+let lives = 3;
 let asteroidCount = 2;
 let asteroidSpeed = 1;
 
@@ -742,6 +744,8 @@ function animate() {
             && asteroid.position.y < canvas.height){
                 let playerKilled = new Audio('explosion.wav');
                 playerKilled.play();
+                lives--;
+                livesEl.innerHTML = lives;
                 setTimeout(() => {
                     asteroids.splice(index, 1);
                     player.opacity = 0;
@@ -786,6 +790,8 @@ function animate() {
             && InvaderProjectile.position.x <= player.position.x + player.width){
                 let playerKilled = new Audio('explosion.wav');
                 playerKilled.play();
+                lives--;
+                livesEl.innerHTML = lives;
                 setTimeout(() => {
                     InvaderProjectiles.splice(index, 1);
                     player.opacity = 0;
@@ -903,6 +909,8 @@ function animate() {
                  laser.position.x <= player.position.x + player.width){
                     let playerKilled = new Audio('explosion.wav');
                     playerKilled.play();
+                    lives--;
+                    livesEl.innerHTML = lives;
                     setTimeout(() => {
                         player.opacity = 0;
                         game.over = true;
@@ -985,6 +993,8 @@ function animate() {
             && BossProjectile.position.x <= player.position.x + player.width){
                 let playerKilled = new Audio('explosion.wav');
                 playerKilled.play();
+                lives--;
+                livesEl.innerHTML = lives;
                 setTimeout(() => {
                     BossProjectiles.splice(BossProjectiles.indexOf(BossProjectile), 1);
                     player.opacity = 0;
