@@ -321,7 +321,7 @@ class Planet extends Asteroid{
 }
 
 class Boss {
-    constructor({position, imageSrc, color, width, height, endurance}) {
+    constructor({bossPosition, imageSrc, color, width, height, endurance}) {
         this.velocity = {
             x: 2,
             y: 0
@@ -337,16 +337,16 @@ class Boss {
             this.width = width;
             this.height = height;
             this.position = {
-                x: position.x,
-                y: position.y
+                x: bossPosition.x,
+                y: bossPosition.y
             };
         }
         this.lasers = [];
         if(level === 12){
             this.lasers.push(new BossLaser({
                 position: {
-                    x: position.x + width / 2 - 10,
-                    y: position.y + height
+                    x: bossPosition.x + width / 2 - 10,
+                    y: bossPosition.y + height
                 },
                 velocity: {
                     x: this.velocity.x,
@@ -879,7 +879,7 @@ function animate() {
 
     //enable rendering of bosses on levels 6 and 12, until they are destroyed
     if(level == 6 && (bosses.length === 0)) {
-        bosses.push(new Boss({position: {
+        bosses.push(new Boss({bossPosition: {
             x: 400,
             y: 50 
         }, imageSrc: enemyImages[5], color: colors[5], width: 400, height: 200, endurance: 1}));
@@ -895,7 +895,7 @@ function animate() {
         }
     }
     if(level == 12 && (bosses.length === 0)) {
-        bosses.push(new Boss({position: {
+        bosses.push(new Boss({bossPosition: {
             x: 400,
             y: 50 
         }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 1}));
