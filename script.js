@@ -424,24 +424,24 @@ class Boss {
                     y: this.position.y + this.height
                 },
                 velocity: {
-                    x: 2,
-                    y: 10
+                    x: 3,
+                    y: 5
                 },
-                width: 50,
+                width: 150,
                 height: 5,
-                color: 'purple'
+                color: 'pink'
             }), new BossProjectile({
                 position: {
-                    x: this.position.x + this.width - 50,
+                    x: this.position.x + this.width - 150,
                     y: this.position.y + this.height
                 },
                 velocity: {
-                    x: -2,
-                    y: 10
+                    x: -3,
+                    y: 5
                 },
-                width: 50,
+                width: 150,
                 height: 5,
-                color: 'purple'
+                color: 'pink'
             }));
         }
     }
@@ -889,8 +889,8 @@ function animate() {
         let boss1Firerate = 50;
         if(frames3 % boss1Firerate === 0) {
             bosses[0].shoot(BossProjectiles);
-            let bossShoot = new Audio('ufo_highpitch.wav');
-            bossShoot.play();
+            let boss1Shoot = new Audio('ufo_highpitch.wav');
+            boss1Shoot.play();
             frames3 = 0;
         }
     }
@@ -902,13 +902,31 @@ function animate() {
     }
     if(level == 12 && !bosses[0].isDestroyed) {
         bosses[0].update();
-
-        bosses[0].lasers.forEach((laser) => laser.update({velocity: bosses[0].velocity}));
-
-
-        let boss2Firerate = 80;
+        bosses[0].lasers.forEach((laser) => {
+            laser.update({velocity: bosses[0].velocity});
+            if(laser.position.x + laser.width >= player.position.x &&
+                 laser.position.x <= player.position.x + player.width){
+                    let playerKilled = new Audio('explosion.wav');
+                    playerKilled.play();
+                    setTimeout(() => {
+                        player.opacity = 0;
+                        game.over = true;
+                    }, 0);
+                    setTimeout(() => {
+                        game.active = false;
+                    }, 2000);
+                    createParticles({
+                        object: player,
+                        color: 'white',
+                        fades: true
+                    });
+            }
+        });
+        let boss2Firerate = 120;
         if(frames3 % boss2Firerate === 0) {
             bosses[0].shoot(BossProjectiles);
+            let boss2Shoot = new Audio('ufo_highpitch.wav');
+            boss2Shoot.play();
             frames3 = 0;
         }
     }
