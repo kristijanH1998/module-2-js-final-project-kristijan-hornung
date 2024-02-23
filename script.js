@@ -28,8 +28,6 @@ class Player {
         }
     }
     draw(){
-     //   c.fillStyle = 'red',
-      //  c.fillRect(this.position.x, this.position.y, this.width, this.height)
         c.save();
         c.globalAlpha = this.opacity;
         c.translate(player.position.x + player.width / 2, 
@@ -76,8 +74,6 @@ class Invader {
         }
     }
     draw(){
-     //   c.fillStyle = 'red',
-      //  c.fillRect(this.position.x, this.position.y, this.width, this.height)
         if(this.image){
             c.drawImage(this.image, 
                         this.position.x, 
@@ -875,7 +871,6 @@ function animate() {
             });
         })
     });
-
 
     //enable rendering of bosses on levels 6 and 12, until they are destroyed
     if(level == 6 && (bosses.length === 0)) {
