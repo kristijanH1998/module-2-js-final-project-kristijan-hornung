@@ -607,10 +607,6 @@ let frames4 = 0;
 let randomInterval = Math.floor((Math.random() * 500) + 500);
 let planetRespawnInterval = Math.floor((Math.random() * 750) + 100);
 let asteroidRespawnInterval = Math.floor((Math.random() * 750) + 100);
-let game = {
-    over: false,
-    active: true
-}
 
 //background stars
 for(let i = 0; i < 100; i++){
@@ -666,9 +662,10 @@ function createParticles({object, color, fades, radius}) {
 }
 
 updateAsteroids();
+
+let animationRequest;
 function animate() {
-    if(!game.active) return;
-    requestAnimationFrame(animate);
+    animationRequest = requestAnimationFrame(animate);
     c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width, canvas.height);
     backgroundStars.forEach((star) => {
@@ -742,28 +739,7 @@ function animate() {
             && asteroid.position.x + asteroid.width >= player.position.x
             && asteroid.position.x <= player.position.x + player.width
             && asteroid.position.y < canvas.height){
-                let playerKilled = new Audio('explosion.wav');
-                playerKilled.play();
-                lives--;
-                livesEl.innerHTML = lives;
-                setTimeout(() => {
-                    asteroids.splice(index, 1);
-                    player.opacity = 0;
-                    game.over = true;
-                }, 0);
-                setTimeout(() => {
-                    game.active = false;
-                }, 2000);
-                createParticles({
-                    object: player,
-                    color: 'white',
-                    fades: true
-                });
-                createParticles({
-                    object: asteroid,
-                    color: 'grey',
-                    fades: true
-                })
+                testGameState(asteroids, index, asteroid, player);
             } else {
                 if(asteroid.position.y - (asteroid.height / 2) >= canvas.height) {
                     asteroid.position.x = Math.random() * canvas.width;
@@ -788,24 +764,8 @@ function animate() {
         if(InvaderProjectile.position.y + InvaderProjectile.height >= player.position.y
             && InvaderProjectile.position.x + InvaderProjectile.width >= player.position.x
             && InvaderProjectile.position.x <= player.position.x + player.width){
-                let playerKilled = new Audio('explosion.wav');
-                playerKilled.play();
-                lives--;
-                livesEl.innerHTML = lives;
-                setTimeout(() => {
-                    InvaderProjectiles.splice(index, 1);
-                    player.opacity = 0;
-                    game.over = true;
-                }, 0);
-                setTimeout(() => {
-                    game.active = false;
-                }, 2000);
-                //console.log('you lose');
-                createParticles({
-                    object: player,
-                    color: 'white',
-                    fades: true
-                });
+                testGameState(InvaderProjectiles, index, null, player);
+                
         }
     });
     //player's projectile movement update
@@ -907,22 +867,7 @@ function animate() {
             laser.update({velocity: bosses[0].velocity});
             if(laser.position.x + laser.width >= player.position.x &&
                  laser.position.x <= player.position.x + player.width){
-                    let playerKilled = new Audio('explosion.wav');
-                    playerKilled.play();
-                    lives--;
-                    livesEl.innerHTML = lives;
-                    setTimeout(() => {
-                        player.opacity = 0;
-                        game.over = true;
-                    }, 0);
-                    setTimeout(() => {
-                        game.active = false;
-                    }, 2000);
-                    createParticles({
-                        object: player,
-                        color: 'white',
-                        fades: true
-                    });
+                    testGameState(null, null, null, player);
             }
         });
         let boss2Firerate = 120;
@@ -991,23 +936,7 @@ function animate() {
         if(BossProjectile.position.y + BossProjectile.height >= player.position.y
             && BossProjectile.position.x + BossProjectile.width >= player.position.x
             && BossProjectile.position.x <= player.position.x + player.width){
-                let playerKilled = new Audio('explosion.wav');
-                playerKilled.play();
-                lives--;
-                livesEl.innerHTML = lives;
-                setTimeout(() => {
-                    BossProjectiles.splice(BossProjectiles.indexOf(BossProjectile), 1);
-                    player.opacity = 0;
-                    game.over = true;
-                }, 0);
-                setTimeout(() => {
-                    game.active = false;
-                }, 2000);
-                createParticles({
-                    object: player,
-                    color: 'white',
-                    fades: true
-                });
+                testGameState(BossProjectiles, BossProjectiles.indexOf(BossProjectile), null, player)
         }
     });
 
@@ -1053,10 +982,46 @@ function animate() {
     frames3++;
     frames4++;
 }
+
+//run each time the player is hit by enemy projectile, laser, or asteroid; if player has no more lives left, call 
+//continueOrEndGame() to terminate the game
+function testGameState(enemyArray, arrayIndex, enemyObject, player) {
+    let playerKilled = new Audio('explosion.wav');
+    playerKilled.play();
+    lives--;
+    livesEl.innerHTML = lives;
+    setTimeout(() => {
+        if(enemyArray){
+            enemyArray.splice(arrayIndex, 1);
+        }
+        player.opacity = 0;
+    }, 0);
+    createParticles({
+        object: player,
+        color: 'white',
+        fades: true
+    });
+    if(enemyObject) {
+        createParticles({
+            object: enemyObject,
+            color: 'grey',
+            fades: true
+        })
+    }
+    continueOrEndGame();
+}
+
+function continueOrEndGame() {
+    if(lives === 0){
+        setTimeout(() => {
+            cancelAnimationFrame(animationRequest);
+        }, 2000);
+    } 
+}
 animate();
 
 addEventListener('keydown', ({ key }) => {
-    if(game.over) return;
+    if(lives === 0) return;
     switch(key){
         case 'a': 
             keys.a.pressed = true;
