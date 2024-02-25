@@ -1008,14 +1008,33 @@ function testGameState(enemyArray, arrayIndex, enemyObject, player) {
             fades: true
         })
     }
-    continueOrEndGame();
+    continueOrEndGame(player);
 }
 
-function continueOrEndGame() {
+function continueOrEndGame(player) {
     if(lives === 0){
+        //stop game animation 2 seconds after player has been killed for the last time
         setTimeout(() => {
             cancelAnimationFrame(animationRequest);
         }, 2000);
+    } else {
+        //'respawn' the player visually on the canvas 2 seconds after it has been hit by enemies but still has lives remaining
+        //the player will flicker for several seconds while being respawned
+        setTimeout(() => {
+            let flickerTimes = 0;
+            const flickerInterval = setInterval(() => {
+                if(player.opacity === 1) {
+                    player.opacity = 0.5;
+                } else {
+                    player.opacity = 1;
+                }
+                flickerTimes++;
+                if((flickerTimes) === 11) {
+                    clearInterval(flickerInterval);
+                }
+            }, 300);   
+        }, 2000);
+        return;
     } 
 }
 animate();
