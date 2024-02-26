@@ -25,23 +25,34 @@
 <body>
     <div style="position: relative;">
         <p
-        style="position: absolute; z-index: 10; color: white; left: 10px;
-        top: 10px; margin: 0;"
+        style="position: absolute; z-index: 10; color: white; left: 1%;
+        top: 1%; margin: 0;"
         ><span>Score: </span><span id="scoreEl">0</span>
         </p>
         <p
-        style="position: absolute; z-index: 10; color: white; left: 10px;
-        top: 30px; margin: 0;"
+        style="position: absolute; z-index: 10; color: white; left: 1%;
+        top: 5%; margin: 0;"
         ><span>Level: </span><span id="levelEl">1</span>
         </p>
         <p
-        style="position: absolute; z-index: 10; color: white; left: 1220px;
-        top: 10px; margin: 0;"
+        style="position: absolute; z-index: 10; color: white; right: 1%;
+        top: 1%; margin: 0;"
         ><span>Lives: </span><span id="livesEl">3</span>
         </p>
-        <button style="position: absolute; z-index: 10;
-        top: 60px; right: 5px; width: 4em; height: 2em; " type="button" class="btn btn-light d-flex justify-content-center
+        <button style="position: absolute; z-index: 10; width: 4em; height: 2em; top: 5%; right: 1%" type="button" class="btn btn-light d-flex justify-content-center
         align-items-center">Menu</button>
+
+        <div class="btn-group-vertical btn-group-lg position-absolute top-50 start-50 translate-middle" role="group" aria-label="Large button group">
+            <button type="button" class="btn btn-outline-primary">Left</button>
+            <button type="button" class="btn btn-outline-primary">Middle</button>
+            <button type="button" class="btn btn-outline-primary">Right</button>
+        </div>
+          
+
+
+
+
+
         <canvas></canvas>
     </div>
     <script src="script.js"></script>
