@@ -7,6 +7,21 @@ const c = canvas.getContext('2d');
 canvas.width = 1280;
 canvas.height = 800;
 
+//buttons
+const menuBtn = document.getElementById('menuBtn');
+const menuUI = document.getElementById('menuUI');
+const newGameBtn = document.getElementById('newGameBtn');
+const optionsBtn = document.getElementById('optionsBtn');
+const resumeBtn = document.getElementById('resumeBtn');
+const restartBtn = document.getElementById('restartBtn');
+const difficultyBtn = document.getElementById('difficultyBtn');
+const backgroundBtn = document.getElementById('backgroundBtn');
+const soundBtn = document.getElementById('soundBtn');
+const spaceshipBtn = document.getElementById('spaceshipBtn');
+const highScoresBtn = document.getElementById('highScoresBtn');
+const quitBtn = document.getElementById('quitBtn');
+
+
 class Player {
     constructor() {
         this.velocity = {
@@ -664,6 +679,8 @@ function createParticles({object, color, fades, radius}) {
 updateAsteroids();
 
 let animationRequest;
+let newGameClicked;
+
 function animate() {
     animationRequest = requestAnimationFrame(animate);
     c.fillStyle = 'black';
@@ -687,6 +704,11 @@ function animate() {
             planet.update();
         }
     });
+
+    if(menuUI.classList.contains('d-block') && !newGameClicked){
+        cancelAnimationFrame(animationRequest);
+    }
+
     particles.forEach((particle, i) => {
         //explosion particles
         if(particle.opacity <= 0) {
@@ -982,6 +1004,7 @@ function animate() {
     frames3++;
     frames4++;
 }
+animate();
 
 //run each time the player is hit by enemy projectile, laser, or asteroid; if player has no more lives left, call 
 //continueOrEndGame() to terminate the game
@@ -1037,7 +1060,6 @@ function continueOrEndGame(player) {
         return;
     } 
 }
-animate();
 
 addEventListener('keydown', ({ key }) => {
     if(lives === 0) return;
@@ -1075,5 +1097,51 @@ addEventListener('keyup', ({ key }) => {
         case ' ': 
             keys.space.pressed = false;
             break;
+    }
+});
+
+//event listeners for buttons in Menu UI and Main Menu Button
+
+menuBtn.addEventListener('click', function(){
+    if(menuUI.classList.contains('d-none')){
+        menuUI.classList.remove('d-none');
+        menuUI.classList.add('d-block');
+        setTimeout(() => {
+            cancelAnimationFrame(animationRequest);
+        }, 0);
+    } else {
+        menuUI.classList.add('d-none');
+        menuUI.classList.remove('d-block');
+        if(lives > 0 && newGameClicked) {
+            setTimeout(() => {
+                requestAnimationFrame(animate);
+            }, 0);
+        }
+    }  
+});
+
+newGameBtn.addEventListener('click', function() {
+    newGameClicked = true;
+    menuUI.classList.remove('d-block');
+    menuUI.classList.add('d-none');
+    newGameBtn.innerHTML = 'Continue';
+    animate();
+});
+
+optionsBtn.addEventListener('click', function() {
+    for (const child of menuUI.children) {
+        
+        if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn){
+            child.classList.add('d-block');
+            child.classList.remove('d-none');
+        } else {
+            child.classList.remove('d-block');
+            child.classList.add('d-none');
+        }
+            
+        
+        // backgroundBtn.classList.add('d-block');
+        // soundBtn.classList.add('d-block');
+        // spaceshipBtn.classList.add('d-block');
     }
 });

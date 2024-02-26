@@ -39,20 +39,21 @@
         top: 1%; margin: 0;"
         ><span>Lives: </span><span id="livesEl">3</span>
         </p>
-        <button style="position: absolute; z-index: 10; width: 4em; height: 2em; top: 5%; right: 1%" type="button" class="btn btn-light d-flex justify-content-center
-        align-items-center">Menu</button>
+        <button style="position: absolute; z-index: 10; width: 4em; height: 2em; top: 5%; right: 1%" type="button" class="btn btn-outline-light d-flex justify-content-center
+        align-items-center" id="menuBtn">Menu</button>
 
-        <div class="btn-group-vertical btn-group-lg position-absolute top-50 start-50 translate-middle" role="group" aria-label="Large button group">
-            <button type="button" class="btn btn-outline-primary">Left</button>
-            <button type="button" class="btn btn-outline-primary">Middle</button>
-            <button type="button" class="btn btn-outline-primary">Right</button>
+        <div class="d-block btn-group-vertical btn-group-lg position-absolute top-50 start-50 translate-middle w-25 h-25" role="group" aria-label="Large button group" id="menuUI">
+            <button type="button" class="d-block btn btn-outline-light" id="newGameBtn">New Game</button>
+            <button type="button" class="d-none btn btn-outline-light" id="resumeBtn">Resume</button>
+            <button type="button" class="d-none btn btn-outline-light" id="restartBtn">Restart</button>
+            <button type="button" class="d-block btn btn-outline-light" id="optionsBtn">Options</button>
+            <button type="button" class="d-none btn btn-outline-light" id="difficultyBtn">Difficulty</button>
+            <button type="button" class="d-none btn btn-outline-light" id="backgroundBtn">Background</button>
+            <button type="button" class="d-none btn btn-outline-light" id="soundBtn">Sound On/Off</button>
+            <button type="button" class="d-none btn btn-outline-light" id="spaceshipBtn">Spaceship Design</button>
+            <button type="button" class="d-block btn btn-outline-light" id="highScoresBtn">High Scores</button>
+            <button type="button" class="d-none btn btn-outline-light" id="quitBtn">Quit</button>
         </div>
-          
-
-
-
-
-
         <canvas></canvas>
     </div>
     <script src="script.js"></script>
