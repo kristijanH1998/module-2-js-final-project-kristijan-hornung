@@ -20,7 +20,7 @@ const soundBtn = document.getElementById('soundBtn');
 const spaceshipBtn = document.getElementById('spaceshipBtn');
 const highScoresBtn = document.getElementById('highScoresBtn');
 const quitBtn = document.getElementById('quitBtn');
-
+const backBtn = document.getElementById('backBtn');
 
 class Player {
     constructor() {
@@ -1130,18 +1130,27 @@ newGameBtn.addEventListener('click', function() {
 
 optionsBtn.addEventListener('click', function() {
     for (const child of menuUI.children) {
-        
-        if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn){
+        if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn || child == backBtn){
             child.classList.add('d-block');
             child.classList.remove('d-none');
         } else {
             child.classList.remove('d-block');
             child.classList.add('d-none');
-        }
-            
-        
-        // backgroundBtn.classList.add('d-block');
-        // soundBtn.classList.add('d-block');
-        // spaceshipBtn.classList.add('d-block');
+        }  
+    }
+    backBtn.onclick = function() {
+        backToMenu();
     }
 });
+
+function backToMenu() {
+    for (const child of menuUI.children) {
+        if(child == newGameBtn || child == optionsBtn || child == highScoresBtn){
+            child.classList.add('d-block');
+            child.classList.remove('d-none');
+        } else {
+            child.classList.remove('d-block');
+            child.classList.add('d-none');
+        }  
+    }
+}
