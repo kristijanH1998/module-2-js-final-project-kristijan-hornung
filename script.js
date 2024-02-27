@@ -1115,6 +1115,7 @@ addEventListener('keyup', ({ key }) => {
 
 //event listeners for buttons in Menu UI and Main Menu Button
 
+//opens the main menu interface
 menuBtn.addEventListener('click', function(){
     if(menuUI.classList.contains('d-none')){
         menuUI.classList.remove('d-none');
@@ -1134,6 +1135,7 @@ menuBtn.addEventListener('click', function(){
     }  
 });
 
+//Starts a new game; initiates the animation of the game
 newGameBtn.addEventListener('click', function() {
     newGameClicked = true;
     menuUI.classList.remove('d-block');
@@ -1145,6 +1147,7 @@ newGameBtn.addEventListener('click', function() {
     animate();
 });
 
+//Opens the Options menu
 optionsBtn.addEventListener('click', function() {
     for (const child of menuUI.children) {
         if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn || child == backBtnMain){
@@ -1160,6 +1163,7 @@ optionsBtn.addEventListener('click', function() {
     }
 });
 
+//Navigates user back to the main menu
 function backToMenu() {
     for (const child of menuUI.children) {
         if(child == newGameBtn || child == optionsBtn || child == highScoresBtn){
@@ -1172,6 +1176,7 @@ function backToMenu() {
     }
 }
 
+//navigates user back to the Options menu
 function backToOptions() {
     for (const child of menuUI.children) {
         if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn || child == backBtnMain){
@@ -1184,6 +1189,7 @@ function backToOptions() {
     }
 }
 
+//Enables choosing color of background
 backgroundBtn.addEventListener('click', function() {
     for (const child of menuUI.children) {
         if(child == blackBtn || child == indigoBtn || child == blueBtn || child == greyBtn || child == greenBtn
@@ -1211,6 +1217,7 @@ backgroundBtn.addEventListener('click', function() {
     });
 });
 
+//setting Sound on/off 
 soundBtn.addEventListener('click', function() {
     if(soundOn) {
         soundOn = false;
