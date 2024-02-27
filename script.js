@@ -1,11 +1,14 @@
 const scoreEl = document.querySelector('#scoreEl');
 const levelEl = document.querySelector('#levelEl');
 const livesEl = document.querySelector('#livesEl');
+const soundEl = document.querySelector('#soundEl');
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
 canvas.width = 1280;
 canvas.height = 800;
+let backgroundColor = 'black';
+let soundOn = true;
 
 //buttons
 const menuBtn = document.getElementById('menuBtn');
@@ -20,12 +23,27 @@ const soundBtn = document.getElementById('soundBtn');
 const spaceshipBtn = document.getElementById('spaceshipBtn');
 const highScoresBtn = document.getElementById('highScoresBtn');
 const quitBtn = document.getElementById('quitBtn');
-const backBtn = document.getElementById('backBtn');
+const backBtnMain = document.getElementById('backBtnMain');
+const backBtnOptions = document.getElementById('backBtnOptions');
 const blackBtn = document.getElementById('blackBtn');
 const indigoBtn = document.getElementById('indigoBtn');
 const blueBtn = document.getElementById('blueBtn');
 const greyBtn = document.getElementById('greyBtn');
 const greenBtn = document.getElementById('greenBtn');
+const colorBtns = [blackBtn, indigoBtn, blueBtn, greyBtn, greenBtn];
+
+let asteroidDestroyed = new Audio('invaderkilled.wav');
+let invaderShoot = new Audio('fastinvader1.wav');
+let invaderKilled = new Audio('invaderkilled.wav');
+let boss1Shoot = new Audio('ufo_highpitch.wav');
+let boss2Shoot = new Audio('ufo_highpitch.wav');
+let bossDamaged = new Audio('invaderkilled.wav');
+let bossDestroyed = new Audio('explosion.wav');
+let playerKilled = new Audio('explosion.wav');
+let laserShot = new Audio('shoot.wav');
+const sounds = [asteroidDestroyed, invaderShoot, invaderKilled, boss1Shoot, boss2Shoot, bossDamaged, bossDestroyed,
+    playerKilled, laserShot];
+
 
 class Player {
     constructor() {
@@ -688,7 +706,7 @@ let newGameClicked;
 
 function animate() {
     animationRequest = requestAnimationFrame(animate);
-    c.fillStyle = 'black';
+    c.fillStyle = backgroundColor;
     c.fillRect(0, 0, canvas.width, canvas.height);
     backgroundStars.forEach((star) => {
         //background stars rendered
@@ -733,7 +751,6 @@ function animate() {
                 && projectile.position.x + projectile.radius >= asteroid.position.x
                 && projectile.position.x - projectile.radius <= asteroid.position.x + asteroid.width
                 && projectile.position.y + projectile.radius >= asteroid.position.y){
-                let asteroidDestroyed = new Audio('invaderkilled.wav');
                 asteroidDestroyed.play();
                 setTimeout(() => {
                     const asteroidFound = asteroids.find(asteroid2 => {
@@ -812,7 +829,6 @@ function animate() {
         let invaderFirerate = 140 - (level * 10);
         if(frames1 % invaderFirerate === 0 && grid.invaders.length > 0) {
             grid.invaders[Math.floor(Math.random() * grid.invaders.length)].shoot(InvaderProjectiles);
-            let invaderShoot = new Audio('fastinvader1.wav');
             invaderShoot.play();
         }
         grid.invaders.forEach((invader, i) => {
@@ -833,8 +849,6 @@ function animate() {
                             const projectileFound = projectiles.find(projectile2 => projectile2 === projectile);
                             //remove invader and projectile
                             if(invaderFound && projectileFound) {
-    
-                                let invaderKilled = new Audio('invaderkilled.wav');
                                 invaderKilled.play();
     
                                 //update score
@@ -877,7 +891,6 @@ function animate() {
         let boss1Firerate = 50;
         if(frames3 % boss1Firerate === 0) {
             bosses[0].shoot(BossProjectiles);
-            let boss1Shoot = new Audio('ufo_highpitch.wav');
             boss1Shoot.play();
             frames3 = 0;
         }
@@ -900,7 +913,6 @@ function animate() {
         let boss2Firerate = 120;
         if(frames3 % boss2Firerate === 0) {
             bosses[0].shoot(BossProjectiles);
-            let boss2Shoot = new Audio('ufo_highpitch.wav');
             boss2Shoot.play();
             frames3 = 0;
         }
@@ -922,7 +934,6 @@ function animate() {
                         const projectileFound = projectiles.find(projectile4 => projectile4 === projectile);
                         //remove projectile
                         if(bossFound && projectileFound) {
-                            let bossDamaged = new Audio('invaderkilled.wav');
                             bossDamaged.play();
                             boss.shotsTaken++;
                             //test if boss has been shot at enough times, if yes then boss is destroyed
@@ -937,7 +948,6 @@ function animate() {
                                 level++;
                                 levelEl.innerHTML = level;
                                 bosses.splice(bossIndex, 1);
-                                let bossDestroyed = new Audio('explosion.wav');
                                 bossDestroyed.play();
                             }
                             projectiles.splice(j, 1);
@@ -1014,7 +1024,6 @@ animate();
 //run each time the player is hit by enemy projectile, laser, or asteroid; if player has no more lives left, call 
 //continueOrEndGame() to terminate the game
 function testGameState(enemyArray, arrayIndex, enemyObject, player) {
-    let playerKilled = new Audio('explosion.wav');
     playerKilled.play();
     lives--;
     livesEl.innerHTML = lives;
@@ -1086,7 +1095,6 @@ addEventListener('keydown', ({ key }) => {
                     y: -10
                 }
             }));
-            let laserShot = new Audio('shoot.wav');
             laserShot.play();
             break;
     }
@@ -1131,12 +1139,15 @@ newGameBtn.addEventListener('click', function() {
     menuUI.classList.remove('d-block');
     menuUI.classList.add('d-none');
     newGameBtn.innerHTML = 'Continue';
+    if(animationRequest){
+        cancelAnimationFrame(animationRequest);
+    }
     animate();
 });
 
 optionsBtn.addEventListener('click', function() {
     for (const child of menuUI.children) {
-        if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn || child == backBtn){
+        if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn || child == backBtnMain){
             child.classList.add('d-block');
             child.classList.remove('d-none');
         } else {
@@ -1144,7 +1155,7 @@ optionsBtn.addEventListener('click', function() {
             child.classList.add('d-none');
         }  
     }
-    backBtn.onclick = function() {
+    backBtnMain.onclick = function() {
         backToMenu();
     }
 });
@@ -1163,7 +1174,7 @@ function backToMenu() {
 
 function backToOptions() {
     for (const child of menuUI.children) {
-        if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn || child == backBtn){
+        if(child == backgroundBtn || child == soundBtn || child == spaceshipBtn || child == backBtnMain){
             child.classList.add('d-block');
             child.classList.remove('d-none');
         } else {
@@ -1176,7 +1187,7 @@ function backToOptions() {
 backgroundBtn.addEventListener('click', function() {
     for (const child of menuUI.children) {
         if(child == blackBtn || child == indigoBtn || child == blueBtn || child == greyBtn || child == greenBtn
-            || child == backBtn){
+            || child == backBtnOptions){
             child.classList.add('d-block');
             child.classList.remove('d-none');
         } else {
@@ -1184,7 +1195,34 @@ backgroundBtn.addEventListener('click', function() {
             child.classList.add('d-none');
         }  
     }
-    backBtn.onclick = function() {
+    backBtnOptions.onclick = function() {
         backToOptions();
+    }
+    colorBtns.forEach(button => {
+        button.onclick = function() {
+            backgroundColor = button.style.backgroundColor;
+            setTimeout(() => {
+                animate();            
+                if(animationRequest){
+                    cancelAnimationFrame(animationRequest);
+                }
+            }, 0);    
+        }
+    });
+});
+
+soundBtn.addEventListener('click', function() {
+    if(soundOn) {
+        soundOn = false;
+        sounds.forEach(sound => {
+            sound.muted = true;
+        });
+        soundEl.innerHTML = 'Off';
+    } else {
+        soundOn = true;
+        sounds.forEach(sound => {
+            sound.muted = false;
+        });
+        soundEl.innerHTML = 'On';
     }
 });
