@@ -45,7 +45,8 @@ let playerKilled = new Audio('explosion.wav');
 let laserShot = new Audio('shoot.wav');
 const sounds = [asteroidDestroyed, invaderShoot, invaderKilled, boss1Shoot, boss2Shoot, bossDamaged, bossDestroyed,
     playerKilled, laserShot];
-
+let spaceshipDesign = 'spaceship1.png';
+const spaceshipDesignBtns = [design1Btn, design2Btn, design3Btn];
 
 class Player {
     constructor() {
@@ -56,7 +57,7 @@ class Player {
         this.rotation = 0;
         this.opacity = 1;
         const image = new Image();
-        image.src = './spaceship1.png';
+        image.src = './' + spaceshipDesign;
         image.onload = () => {
             const scale = 0.06;
             this.image = image;
@@ -85,13 +86,21 @@ class Player {
         }
         c.restore();
     }
-
     update() {
         if(this.image) {
             this.draw();
             this.position.x += this.velocity.x;
         }
-    
+    }
+    changeDesign() {
+        let newDesign = new Image();
+        newDesign.src = './' + spaceshipDesign;
+        newDesign.onload = () => {
+            const scale = 0.06;
+            this.image = newDesign;
+            this.width = newDesign.width * scale;
+            this.height = newDesign.height * scale;
+        }
     }
 }
 
@@ -1009,7 +1018,7 @@ function animate() {
         frames2 = 0;
     }
     //frames4 % 60 === 0 will execute the code in the if statement every 1 second (due to 60hz per second refresh rate)
-    if((level < 12) && (frames4 % 60 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
+    if((level < 12) && (frames4 % 3600 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
         level++;
         levelEl.innerHTML = level;
         asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
@@ -1236,7 +1245,7 @@ soundBtn.addEventListener('click', function() {
     }
 });
 
-//choose spaceship design
+//open the choose spaceship design menu
 spaceshipBtn.addEventListener('click', function() {
     for (const child of menuUI.children) {
         if(child == design1Btn || child == design2Btn || child == design3Btn || child == backBtnOptions){
@@ -1250,4 +1259,18 @@ spaceshipBtn.addEventListener('click', function() {
     backBtnOptions.onclick = function() {
         backToOptions();
     }
+});
+
+//choose spaceship design
+spaceshipDesignBtns.forEach(button => {
+    button.addEventListener('click', function() {
+        spaceshipDesign = button.firstChild.getAttribute('src');
+        player.changeDesign();
+        setTimeout(() => {
+            animate();            
+            if(animationRequest){
+                cancelAnimationFrame(animationRequest);
+            }
+        }, 5);
+    });
 });
