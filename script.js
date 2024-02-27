@@ -15,9 +15,7 @@ const menuBtn = document.getElementById('menuBtn');
 const menuUI = document.getElementById('menuUI');
 const newGameBtn = document.getElementById('newGameBtn');
 const optionsBtn = document.getElementById('optionsBtn');
-const resumeBtn = document.getElementById('resumeBtn');
 const restartBtn = document.getElementById('restartBtn');
-const difficultyBtn = document.getElementById('difficultyBtn');
 const backgroundBtn = document.getElementById('backgroundBtn');
 const soundBtn = document.getElementById('soundBtn');
 const spaceshipBtn = document.getElementById('spaceshipBtn');
@@ -30,6 +28,10 @@ const indigoBtn = document.getElementById('indigoBtn');
 const blueBtn = document.getElementById('blueBtn');
 const greyBtn = document.getElementById('greyBtn');
 const greenBtn = document.getElementById('greenBtn');
+const design1Btn = document.getElementById('design1Btn');
+const design2Btn = document.getElementById('design2Btn');
+const design3Btn = document.getElementById('design3Btn');
+
 const colorBtns = [blackBtn, indigoBtn, blueBtn, greyBtn, greenBtn];
 
 let asteroidDestroyed = new Audio('invaderkilled.wav');
@@ -54,7 +56,7 @@ class Player {
         this.rotation = 0;
         this.opacity = 1;
         const image = new Image();
-        image.src = './spaceship.png';
+        image.src = './spaceship1.png';
         image.onload = () => {
             const scale = 0.06;
             this.image = image;
@@ -1231,5 +1233,21 @@ soundBtn.addEventListener('click', function() {
             sound.muted = false;
         });
         soundEl.innerHTML = 'On';
+    }
+});
+
+//choose spaceship design
+spaceshipBtn.addEventListener('click', function() {
+    for (const child of menuUI.children) {
+        if(child == design1Btn || child == design2Btn || child == design3Btn || child == backBtnOptions){
+            child.classList.add('d-block');
+            child.classList.remove('d-none');
+        } else {
+            child.classList.remove('d-block');
+            child.classList.add('d-none');
+        }  
+    }
+    backBtnOptions.onclick = function() {
+        backToOptions();
     }
 });
