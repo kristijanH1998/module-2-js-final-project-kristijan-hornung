@@ -30,7 +30,8 @@ const greenBtn = document.getElementById('greenBtn');
 const design1Btn = document.getElementById('design1Btn');
 const design2Btn = document.getElementById('design2Btn');
 const design3Btn = document.getElementById('design3Btn');
-const gameOverHeading = document.getElementById('gameOver')
+const gameOverHeading = document.getElementById('gameOver');
+const gameWonHeading = document.getElementById('gameWon');
 
 const colorBtns = [blackBtn, indigoBtn, blueBtn, greyBtn, greenBtn];
 
@@ -956,6 +957,15 @@ function animate() {
                                     radius: 20
                                 });
                                 boss.isDestroyed = true;
+                                if(level === 12) {
+                                    setTimeout(() => {
+                                        menuUI.classList.remove('d-none');
+                                        menuUI.classList.add('d-block');
+                                        gameWonHeading.classList.remove('d-none');
+                                        cancelAnimationFrame(animationRequest);
+                                        gameOver();
+                                    }, 2000);
+                                }
                                 level++;
                                 levelEl.innerHTML = level;
                                 bosses.splice(bossIndex, 1);
@@ -1018,7 +1028,7 @@ function animate() {
         frames2 = 0;
     }
     //frames4 % 60 === 0 will execute the code in the if statement every 1 second (due to 60hz per second refresh rate)
-    if((level < 12) && (frames4 % 600 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
+    if((level < 12) && (frames4 % 60 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
         level++;
         levelEl.innerHTML = level;
         asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
@@ -1158,6 +1168,9 @@ newGameBtn.addEventListener('click', function() {
     newGameBtn.innerHTML = 'Continue';
     if(!gameOverHeading.classList.contains('d-none')){
         gameOverHeading.classList.add('d-none');
+    }
+    if(!gameWonHeading.classList.contains('d-none')){
+        gameWonHeading.classList.add('d-none');
     }
     if(animationRequest){
         cancelAnimationFrame(animationRequest);
