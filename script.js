@@ -15,7 +15,6 @@ const menuBtn = document.getElementById('menuBtn');
 const menuUI = document.getElementById('menuUI');
 const newGameBtn = document.getElementById('newGameBtn');
 const optionsBtn = document.getElementById('optionsBtn');
-const restartBtn = document.getElementById('restartBtn');
 const backgroundBtn = document.getElementById('backgroundBtn');
 const soundBtn = document.getElementById('soundBtn');
 const spaceshipBtn = document.getElementById('spaceshipBtn');
@@ -1018,7 +1017,7 @@ function animate() {
         frames2 = 0;
     }
     //frames4 % 60 === 0 will execute the code in the if statement every 1 second (due to 60hz per second refresh rate)
-    if((level < 12) && (frames4 % 60 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
+    if((level < 12) && (frames4 % 600 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
         level++;
         levelEl.innerHTML = level;
         asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
@@ -1187,8 +1186,8 @@ function backToMenu() {
         }  
     }
     if(newGameClicked) {
-        restartBtn.classList.add('d-block');
-        restartBtn.classList.remove('d-none');  
+        quitBtn.classList.add('d-block');
+        quitBtn.classList.remove('d-none');  
     }
 }
 
@@ -1278,4 +1277,45 @@ spaceshipDesignBtns.forEach(button => {
             }
         }, 5);
     });
+});
+
+//Quit button removes all existing enemies, asteroids, and projectiles from the canvas, and sets level, score, and lives remaining
+//to initial values before game is started. It also shows the Main Menu from before the New Game is selected. Animation frame values are also reset.
+quitBtn.addEventListener('click', function(){
+    level = 1;
+    score = 0;
+    lives = 3;
+    levelEl.innerHTML = level;
+    scoreEl.innerHTML = score;
+    livesEl.innerHTML = lives;
+
+    while(grids.length > 0){
+        grids.pop();
+    }
+    while(asteroids.length > 0){
+        asteroids.pop();
+    }
+    while(bosses.length > 0) {
+        bosses.pop();
+    }
+    while(projectiles.length > 0) {
+        projectiles.pop();
+    }while(InvaderProjectiles.length > 0) {
+        InvaderProjectiles.pop();
+    }while(BossProjectiles.length > 0) {
+        BossProjectiles.pop();
+    }
+    setTimeout(() => {
+        animate();            
+        if(animationRequest){
+            cancelAnimationFrame(animationRequest);
+        }
+    }, 5);
+    frames1 = 0;
+    frames2 = 0;
+    frames3 = 0;
+    frames4 = 0;
+    newGameClicked = false;
+    newGameBtn.innerHTML = 'New Game';
+    backToMenu();
 });
