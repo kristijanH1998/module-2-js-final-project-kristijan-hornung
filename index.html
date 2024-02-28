@@ -49,26 +49,30 @@
         </p>
         <button style="position: absolute; z-index: 10; width: 4em; height: 2em; top: 5%; right: 1%" type="button" class="btn btn-outline-light d-flex justify-content-center
         align-items-center" id="menuBtn">Menu</button>
-
-        <div class="d-block btn-group-vertical btn-group-lg position-absolute top-50 start-50 translate-middle w-25 h-25" role="group" aria-label="Large button group" id="menuUI">
-            <button type="button" class="d-block btn btn-outline-light" id="newGameBtn">New Game</button>
-            <button type="button" class="d-block btn btn-outline-light" id="optionsBtn">Options</button>
-            <button type="button" class="d-none btn btn-outline-light" id="backgroundBtn">Background</button>
-            <button type="button" class="d-none btn btn-outline-light" id="soundBtn">Sound On/Off</button>
-            <button type="button" class="d-none btn btn-outline-light" id="spaceshipBtn">Spaceship Design</button>
-            <button type="button" class="d-block btn btn-outline-light" id="highScoresBtn">High Scores</button>
-            <button type="button" class="d-none btn btn-outline-light" id="quitBtn">Quit</button>
-            <button style="background-color: black;" type="button" class="d-none btn btn-outline-light" id="blackBtn">Black(default)</button>
-            <button style="background-color: #4B0082;" type="button" class="d-none btn btn-outline-light" id="indigoBtn">Indigo</button>
-            <button style="background-color: #191970;" type="button" class="d-none btn btn-outline-light" id="blueBtn">Midnight Blue</button>
-            <button style="background-color: #2F4F4F;" type="button" class="d-none btn btn-outline-light" id="greyBtn">Dark Slate Grey</button>
-            <button style="background-color: #006400;" type="button" class="d-none btn btn-outline-light" id="greenBtn">Dark Green</button>
-            <button type="button" class="d-none btn btn-outline-light" id="design1Btn"><img src="spaceship1.png" width="50" height="50"></button>
-            <button type="button" class="d-none btn btn-outline-light" id="design2Btn"><img src="spaceship2.png" width="50" height="50"></button>
-            <button type="button" class="d-none btn btn-outline-light" id="design3Btn"><img src="spaceship3.png" width="50" height="50"></button>
-            <button type="button" class="d-none btn btn-outline-light" id="backBtnMain">Back</button>
-            <button type="button" class="d-none btn btn-outline-light" id="backBtnOptions">Back</button>
+        
+        <div class="d-flex flex-column position-absolute top-50 start-50 translate-middle w-25 h-25">
+            <h1 style="color: white;" class="d-none align-self-center" id="gameOver">Game Over</h1>
+            <div class="d-block btn-group-vertical btn-group-lg" role="group" aria-label="Large button group" id="menuUI">
+                <button type="button" class="d-block btn btn-outline-light" id="newGameBtn">New Game</button>
+                <button type="button" class="d-block btn btn-outline-light" id="optionsBtn">Options</button>
+                <button type="button" class="d-none btn btn-outline-light" id="backgroundBtn">Background</button>
+                <button type="button" class="d-none btn btn-outline-light" id="soundBtn">Sound On/Off</button>
+                <button type="button" class="d-none btn btn-outline-light" id="spaceshipBtn">Spaceship Design</button>
+                <button type="button" class="d-block btn btn-outline-light" id="highScoresBtn">High Scores</button>
+                <button type="button" class="d-none btn btn-outline-light" id="quitBtn">Quit</button>
+                <button style="background-color: black;" type="button" class="d-none btn btn-outline-light" id="blackBtn">Black(default)</button>
+                <button style="background-color: #4B0082;" type="button" class="d-none btn btn-outline-light" id="indigoBtn">Indigo</button>
+                <button style="background-color: #191970;" type="button" class="d-none btn btn-outline-light" id="blueBtn">Midnight Blue</button>
+                <button style="background-color: #2F4F4F;" type="button" class="d-none btn btn-outline-light" id="greyBtn">Dark Slate Grey</button>
+                <button style="background-color: #006400;" type="button" class="d-none btn btn-outline-light" id="greenBtn">Dark Green</button>
+                <button type="button" class="d-none btn btn-outline-light" id="design1Btn"><img src="spaceship1.png" width="50" height="50"></button>
+                <button type="button" class="d-none btn btn-outline-light" id="design2Btn"><img src="spaceship2.png" width="50" height="50"></button>
+                <button type="button" class="d-none btn btn-outline-light" id="design3Btn"><img src="spaceship3.png" width="50" height="50"></button>
+                <button type="button" class="d-none btn btn-outline-light" id="backBtnMain">Back</button>
+                <button type="button" class="d-none btn btn-outline-light" id="backBtnOptions">Back</button>
+            </div>
         </div>
+        
         <canvas></canvas>
     </div>
     <script src="script.js"></script>

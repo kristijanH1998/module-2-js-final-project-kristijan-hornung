@@ -30,6 +30,7 @@ const greenBtn = document.getElementById('greenBtn');
 const design1Btn = document.getElementById('design1Btn');
 const design2Btn = document.getElementById('design2Btn');
 const design3Btn = document.getElementById('design3Btn');
+const gameOverHeading = document.getElementById('gameOver')
 
 const colorBtns = [blackBtn, indigoBtn, blueBtn, greyBtn, greenBtn];
 
@@ -1059,10 +1060,14 @@ function testGameState(enemyArray, arrayIndex, enemyObject, player) {
 }
 
 function continueOrEndGame(player) {
-    if(lives === 0){
-        //stop game animation 2 seconds after player has been killed for the last time
+    if(lives <= 0){
+        //stop game animation 2 seconds after player has been killed for the last time (no lives left)
         setTimeout(() => {
+            gameOverHeading.classList.remove('d-none');
+            menuUI.classList.remove('d-none');
+            menuUI.classList.add('d-block');
             cancelAnimationFrame(animationRequest);
+            gameOver();
         }, 2000);
     } else {
         //'respawn' the player visually on the canvas 2 seconds after it has been hit by enemies but still has lives remaining
@@ -1086,7 +1091,7 @@ function continueOrEndGame(player) {
 }
 
 addEventListener('keydown', ({ key }) => {
-    if(lives === 0) return;
+    if(lives <= 0) return;
     switch(key){
         case 'a': 
             keys.a.pressed = true;
@@ -1151,7 +1156,9 @@ newGameBtn.addEventListener('click', function() {
     menuUI.classList.remove('d-block');
     menuUI.classList.add('d-none');
     newGameBtn.innerHTML = 'Continue';
-
+    if(!gameOverHeading.classList.contains('d-none')){
+        gameOverHeading.classList.add('d-none');
+    }
     if(animationRequest){
         cancelAnimationFrame(animationRequest);
     }
@@ -1281,14 +1288,15 @@ spaceshipDesignBtns.forEach(button => {
 
 //Quit button removes all existing enemies, asteroids, and projectiles from the canvas, and sets level, score, and lives remaining
 //to initial values before game is started. It also shows the Main Menu from before the New Game is selected. Animation frame values are also reset.
-quitBtn.addEventListener('click', function(){
+quitBtn.addEventListener('click', gameOver);
+
+function gameOver(){
     level = 1;
     score = 0;
     lives = 3;
     levelEl.innerHTML = level;
     scoreEl.innerHTML = score;
     livesEl.innerHTML = lives;
-
     while(grids.length > 0){
         grids.pop();
     }
@@ -1300,9 +1308,11 @@ quitBtn.addEventListener('click', function(){
     }
     while(projectiles.length > 0) {
         projectiles.pop();
-    }while(InvaderProjectiles.length > 0) {
+    }
+    while(InvaderProjectiles.length > 0) {
         InvaderProjectiles.pop();
-    }while(BossProjectiles.length > 0) {
+    }
+    while(BossProjectiles.length > 0) {
         BossProjectiles.pop();
     }
     setTimeout(() => {
@@ -1318,4 +1328,4 @@ quitBtn.addEventListener('click', function(){
     newGameClicked = false;
     newGameBtn.innerHTML = 'New Game';
     backToMenu();
-});
+}
