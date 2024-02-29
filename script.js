@@ -14,6 +14,7 @@ let soundOn = true;
 const menuBtn = document.getElementById('menuBtn');
 const menuUI = document.getElementById('menuUI');
 const newGameBtn = document.getElementById('newGameBtn');
+const continueBtn = document.getElementById('continueBtn');
 const optionsBtn = document.getElementById('optionsBtn');
 const backgroundBtn = document.getElementById('backgroundBtn');
 const soundBtn = document.getElementById('soundBtn');
@@ -30,6 +31,9 @@ const greenBtn = document.getElementById('greenBtn');
 const design1Btn = document.getElementById('design1Btn');
 const design2Btn = document.getElementById('design2Btn');
 const design3Btn = document.getElementById('design3Btn');
+const easyBtn = document.getElementById('easyBtn');
+const mediumBtn = document.getElementById('mediumBtn');
+const hardBtn = document.getElementById('hardBtn');
 const gameOverHeading = document.getElementById('gameOver');
 const gameWonHeading = document.getElementById('gameWon');
 
@@ -48,6 +52,7 @@ const sounds = [asteroidDestroyed, invaderShoot, invaderKilled, boss1Shoot, boss
     playerKilled, laserShot];
 let spaceshipDesign = 'spaceship1.png';
 const spaceshipDesignBtns = [design1Btn, design2Btn, design3Btn];
+const difficultyBtns = [easyBtn, mediumBtn, hardBtn];
 
 class Player {
     constructor() {
@@ -508,7 +513,8 @@ const enemyImages = ['invader1.png', 'invader2.png', 'invader3.png', 'invader4.p
 const colors = ['yellow', 'blue', 'lightgreen', 'red', 'lightblue', 'white', 'orange', 'purple', 'orange', 'pink', 'yellow', 'lightgreen'];
 let score = 0;
 let level = 1;
-let lives = 3;
+let difficulty = 0;
+let lives = 0;
 let asteroidCount = 2;
 let asteroidSpeed = 1;
 
@@ -1163,19 +1169,44 @@ menuBtn.addEventListener('click', function(){
 //Starts a new game; initiates the animation of the game
 newGameBtn.addEventListener('click', function() {
     newGameClicked = true;
-    menuUI.classList.remove('d-block');
-    menuUI.classList.add('d-none');
-    newGameBtn.innerHTML = 'Continue';
     if(!gameOverHeading.classList.contains('d-none')){
         gameOverHeading.classList.add('d-none');
     }
     if(!gameWonHeading.classList.contains('d-none')){
         gameWonHeading.classList.add('d-none');
     }
+    for (const child of menuUI.children) {
+        if(child == easyBtn || child == mediumBtn || child == hardBtn){
+            child.classList.add('d-block');
+            child.classList.remove('d-none');
+        } else {
+            child.classList.remove('d-block');
+            child.classList.add('d-none');
+        }  
+    }
+});
+
+continueBtn.addEventListener('click', function() {
+    menuUI.classList.remove('d-block');
+    menuUI.classList.add('d-none');
     if(animationRequest){
         cancelAnimationFrame(animationRequest);
     }
     animate();
+});
+
+difficultyBtns.forEach(button => {
+    button.addEventListener('click', function(){
+        difficulty = difficultyBtns.indexOf(button) + 1;
+        lives = difficulty * 2;
+        livesEl.innerHTML = lives;
+        menuUI.classList.remove('d-block');
+        menuUI.classList.add('d-none');
+        if(animationRequest){
+            cancelAnimationFrame(animationRequest);
+        }
+        animate();
+    });
 });
 
 //Opens the Options menu
@@ -1206,8 +1237,12 @@ function backToMenu() {
         }  
     }
     if(newGameClicked) {
+        continueBtn.classList.remove('d-none');
+        continueBtn.classList.add('d-block');
         quitBtn.classList.add('d-block');
-        quitBtn.classList.remove('d-none');  
+        quitBtn.classList.remove('d-none');
+        newGameBtn.classList.add('d-none');
+        newGameBtn.classList.remove('d-block');  
     }
 }
 
@@ -1306,7 +1341,7 @@ quitBtn.addEventListener('click', gameOver);
 function gameOver(){
     level = 1;
     score = 0;
-    lives = 3;
+    lives = 0;
     levelEl.innerHTML = level;
     scoreEl.innerHTML = score;
     livesEl.innerHTML = lives;
@@ -1339,6 +1374,5 @@ function gameOver(){
     frames3 = 0;
     frames4 = 0;
     newGameClicked = false;
-    newGameBtn.innerHTML = 'New Game';
     backToMenu();
 }
