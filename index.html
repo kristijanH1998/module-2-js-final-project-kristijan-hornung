@@ -50,11 +50,24 @@
         <button style="position: absolute; z-index: 10; width: 4em; height: 2em; top: 5%; right: 1%" type="button" class="btn btn-outline-light d-flex justify-content-center
         align-items-center" id="menuBtn">Menu</button>
         
-        <div class="d-flex flex-column position-absolute top-50 start-50 translate-middle w-25 h-25 align-items-center">
+        <div class="d-flex flex-column position-absolute top-50 start-50 translate-middle w-50 h-25 align-items-center">
             <h1 style="color: white;" class="d-none align-self-center" id="gameOver">Game Over</h1>
             <h1 style="color: white;" class="d-none align-self-center" id="gameWon"><b>You Won!</b></h1>
             <h2 style="color: white;" class="d-none align-self-center" id="chooseDiff"><b>Choose Difficulty:</b></h2>
-            <div class="d-block btn-group-vertical btn-group-lg w-75" role="group" aria-label="Large button group" id="menuUI">
+            <div class="d-none card text-bg-dark mb-3" id="helpCard">
+                <div class="card-body">
+                  <h5 class="card-title text-center mb-4">Instructions:</h5>
+                  <p class="card-text">- Press Left Arrow button to move left or Right Arrow button to move right. <br>
+                                       - To shoot at enemies, press Space. To shoot projectiles in a stream, press and hold Space button.<br>
+                                       - There are 12 levels in the game, each spawning new type of enemy ships that shoot at the player.<br>
+                                       - Every 1 minute, the game proceeds to a new level. <br>
+                                       - At levels 6 and 12 bosses will spawn. When second and final boss is defeated, player wins the game.<br>
+                                       - If player loses all remaining lives before finishing the game, the game is over. <br>
+                                       - At the start of each game, player chooses difficulty to play at. At Easy difficulty, player will have 6 lives, at Medium 4 lives, and at Hard only 2 lives.<br>
+                                       - To choose spaceship design, background color, or switch sounds on/off, select Options from the Menu interface.</p>
+                </div>
+            </div>
+            <div class="d-block btn-group-vertical btn-group-lg w-50" role="group" aria-label="Large button group" id="menuUI">
                 <button type="button" class="d-block btn btn-outline-light" id="newGameBtn">New Game</button>
                 <button type="button" class="d-none btn btn-outline-light" id="continueBtn">Continue</button>
                 <button type="button" class="d-block btn btn-outline-light" id="optionsBtn">Options</button>
@@ -77,12 +90,6 @@
                 <button type="button" class="d-none btn btn-outline-light" id="hardBtn">Hard</button>
                 <button type="button" class="d-none btn btn-outline-light" id="backBtnMain">Back</button>
                 <button type="button" class="d-none btn btn-outline-light" id="backBtnOptions">Back</button>
-            </div>
-            <div class="d-none card text-bg-dark mb-3" style="max-width: 18rem;" id="helpCard">
-                <div class="card-body">
-                  <h5 class="card-title text-center mb-4">Instructions:</h5>
-                  <p class="card-text text-center">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
             </div>
         </div>
         <canvas></canvas>
