@@ -16,6 +16,7 @@ const menuUI = document.getElementById('menuUI');
 const newGameBtn = document.getElementById('newGameBtn');
 const continueBtn = document.getElementById('continueBtn');
 const optionsBtn = document.getElementById('optionsBtn');
+const helpBtn = document.getElementById('helpBtn');
 const backgroundBtn = document.getElementById('backgroundBtn');
 const soundBtn = document.getElementById('soundBtn');
 const spaceshipBtn = document.getElementById('spaceshipBtn');
@@ -36,6 +37,7 @@ const mediumBtn = document.getElementById('mediumBtn');
 const hardBtn = document.getElementById('hardBtn');
 const gameOverHeading = document.getElementById('gameOver');
 const gameWonHeading = document.getElementById('gameWon');
+const helpCard = document.getElementById('helpCard');
 
 const colorBtns = [blackBtn, indigoBtn, blueBtn, greyBtn, greenBtn];
 
@@ -1163,6 +1165,9 @@ menuBtn.addEventListener('click', function(){
                 requestAnimationFrame(animate);
             }, 0);
         }
+    }
+    if(!helpCard.classList.contains('d-none')){
+        helpCard.classList.add('d-none');
     }  
 });
 
@@ -1225,10 +1230,9 @@ optionsBtn.addEventListener('click', function() {
     }
 });
 
-//Navigates user back to the main menu
-function backToMenu() {
+helpBtn.addEventListener('click', function(){
     for (const child of menuUI.children) {
-        if(child == newGameBtn || child == optionsBtn || child == highScoresBtn){
+        if(child == backBtnMain){
             child.classList.add('d-block');
             child.classList.remove('d-none');
         } else {
@@ -1236,6 +1240,24 @@ function backToMenu() {
             child.classList.add('d-none');
         }  
     }
+    helpCard.classList.remove('d-none');
+    backBtnMain.onclick = function() {
+        backToMenu();
+    }
+});
+
+//Navigates user back to the main menu
+function backToMenu() {
+    for (const child of menuUI.children) {
+        if(child == newGameBtn || child == optionsBtn || child == highScoresBtn || child == helpBtn){
+            child.classList.add('d-block');
+            child.classList.remove('d-none');
+        } else {
+            child.classList.remove('d-block');
+            child.classList.add('d-none');
+        }  
+    }
+    helpCard.classList.add('d-none');
     if(newGameClicked) {
         continueBtn.classList.remove('d-none');
         continueBtn.classList.add('d-block');

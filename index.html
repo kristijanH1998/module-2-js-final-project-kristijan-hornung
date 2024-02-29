@@ -50,14 +50,15 @@
         <button style="position: absolute; z-index: 10; width: 4em; height: 2em; top: 5%; right: 1%" type="button" class="btn btn-outline-light d-flex justify-content-center
         align-items-center" id="menuBtn">Menu</button>
         
-        <div class="d-flex flex-column position-absolute top-50 start-50 translate-middle w-25 h-25">
+        <div class="d-flex flex-column position-absolute top-50 start-50 translate-middle w-25 h-25 align-items-center">
             <h1 style="color: white;" class="d-none align-self-center" id="gameOver">Game Over</h1>
             <h1 style="color: white;" class="d-none align-self-center" id="gameWon"><b>You Won!</b></h1>
             <h2 style="color: white;" class="d-none align-self-center" id="chooseDiff"><b>Choose Difficulty:</b></h2>
-            <div class="d-block btn-group-vertical btn-group-lg" role="group" aria-label="Large button group" id="menuUI">
+            <div class="d-block btn-group-vertical btn-group-lg w-75" role="group" aria-label="Large button group" id="menuUI">
                 <button type="button" class="d-block btn btn-outline-light" id="newGameBtn">New Game</button>
                 <button type="button" class="d-none btn btn-outline-light" id="continueBtn">Continue</button>
                 <button type="button" class="d-block btn btn-outline-light" id="optionsBtn">Options</button>
+                <button type="button" class="d-block btn btn-outline-light" id="helpBtn">Help</button>
                 <button type="button" class="d-none btn btn-outline-light" id="backgroundBtn">Background</button>
                 <button type="button" class="d-none btn btn-outline-light" id="soundBtn">Sound On/Off</button>
                 <button type="button" class="d-none btn btn-outline-light" id="spaceshipBtn">Spaceship Design</button>
@@ -77,8 +78,13 @@
                 <button type="button" class="d-none btn btn-outline-light" id="backBtnMain">Back</button>
                 <button type="button" class="d-none btn btn-outline-light" id="backBtnOptions">Back</button>
             </div>
+            <div class="d-none card text-bg-dark mb-3" style="max-width: 18rem;" id="helpCard">
+                <div class="card-body">
+                  <h5 class="card-title text-center mb-4">Instructions:</h5>
+                  <p class="card-text text-center">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
         </div>
-        
         <canvas></canvas>
     </div>
     <script src="script.js"></script>
