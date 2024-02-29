@@ -1197,8 +1197,8 @@ continueBtn.addEventListener('click', function() {
 
 difficultyBtns.forEach(button => {
     button.addEventListener('click', function(){
-        difficulty = difficultyBtns.indexOf(button) + 1;
-        lives = difficulty * 2;
+        difficulty = difficultyBtns.indexOf(button);
+        lives = 6 - difficulty * 2;
         livesEl.innerHTML = lives;
         menuUI.classList.remove('d-block');
         menuUI.classList.add('d-none');
