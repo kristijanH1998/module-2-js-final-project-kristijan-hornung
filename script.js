@@ -39,18 +39,18 @@ const gameWonHeading = document.getElementById('gameWon');
 
 const colorBtns = [blackBtn, indigoBtn, blueBtn, greyBtn, greenBtn];
 
-let asteroidDestroyed = new Audio('invaderkilled.wav');
-let invaderShoot = new Audio('fastinvader1.wav');
-let invaderKilled = new Audio('invaderkilled.wav');
-let boss1Shoot = new Audio('ufo_highpitch.wav');
-let boss2Shoot = new Audio('ufo_highpitch.wav');
-let bossDamaged = new Audio('invaderkilled.wav');
-let bossDestroyed = new Audio('explosion.wav');
-let playerKilled = new Audio('explosion.wav');
-let laserShot = new Audio('shoot.wav');
+let asteroidDestroyed = new Audio('./sounds/invaderkilled.wav');
+let invaderShoot = new Audio('./sounds/fastinvader1.wav');
+let invaderKilled = new Audio('./sounds/invaderkilled.wav');
+let boss1Shoot = new Audio('./sounds/ufo_highpitch.wav');
+let boss2Shoot = new Audio('./sounds/ufo_highpitch.wav');
+let bossDamaged = new Audio('./sounds/invaderkilled.wav');
+let bossDestroyed = new Audio('./sounds/explosion.wav');
+let playerKilled = new Audio('./sounds/explosion.wav');
+let laserShot = new Audio('./sounds/shoot.wav');
 const sounds = [asteroidDestroyed, invaderShoot, invaderKilled, boss1Shoot, boss2Shoot, bossDamaged, bossDestroyed,
     playerKilled, laserShot];
-let spaceshipDesign = 'spaceship1.png';
+let spaceshipDesign = './spaceshipImages/spaceship1.png';
 const spaceshipDesignBtns = [design1Btn, design2Btn, design3Btn];
 const difficultyBtns = [easyBtn, mediumBtn, hardBtn];
 
@@ -179,7 +179,7 @@ class Grid {
                 this.invaders.push(new Invader({position: {
                     x: x * 32,
                     y: y * 32 
-                 }, imageSrc: enemyImages[level - 1], color: colors[level - 1]}));
+                 }, imageSrc: './enemyImages/' + enemyImages[level - 1], color: colors[level - 1]}));
             }
         }
     }
@@ -525,7 +525,7 @@ let planet1 = new Planet({
         x: 100,
         y: -200
     }, 
-    imageFile: './purple-planet.png',
+    imageFile: './planetImages/purple-planet.png',
     scale: 0.2,
     velocity: {
         x: 0,
@@ -537,7 +537,7 @@ let planet2 = new Planet({
         x: 200,
         y: -200
     }, 
-    imageFile: './saturn.png',
+    imageFile: './planetImages/saturn.png',
     scale: 0.5,
     velocity: {
         x: 0,
@@ -549,7 +549,7 @@ let planet3 = new Planet({
         x: 300,
         y: -200
     }, 
-    imageFile: './jupiter.png',
+    imageFile: './planetImages/jupiter.png',
     scale: 0.15,
     velocity: {
         x: 0,
@@ -561,7 +561,7 @@ let planet4 = new Planet({
         x: 400,
         y: -200
     }, 
-    imageFile: './mars.png',
+    imageFile: './planetImages/mars.png',
     scale: 0.2,
     velocity: {
         x: 0,
@@ -573,7 +573,7 @@ let planet5 = new Planet({
         x: 500,
         y: -200
     }, 
-    imageFile: './mercury.png',
+    imageFile: './planetImages/mercury.png',
     scale: 0.2,
     velocity: {
         x: 0,
@@ -585,7 +585,7 @@ let planet6 = new Planet({
         x: 600,
         y: -200
     }, 
-    imageFile: './venus.png',
+    imageFile: './planetImages/venus.png',
     scale: 0.2,
     velocity: {
         x: 0,
@@ -597,7 +597,7 @@ let planet7 = new Planet({
         x: 700,
         y: -200
     }, 
-    imageFile: './earth.png',
+    imageFile: './planetImages/earth.png',
     scale: 0.2,
     velocity: {
         x: 0,
@@ -609,7 +609,7 @@ let planet8 = new Planet({
         x: 800,
         y: -200
     }, 
-    imageFile: './neptune.png',
+    imageFile: './planetImages/neptune.png',
     scale: 0.2,
     velocity: {
         x: 0,
@@ -621,7 +621,7 @@ let planet9 = new Planet({
         x: 900,
         y: -200
     }, 
-    imageFile: './uranus.png',
+    imageFile: './planetImages/uranus.png',
     scale: 0.2,
     velocity: {
         x: 0,
@@ -633,7 +633,7 @@ let planet10 = new Planet({
         x: 1000,
         y: -200
     }, 
-    imageFile: './blue-planet-1.png',
+    imageFile: './planetImages/blue-planet-1.png',
     scale: 0.2,
     velocity: {
         x: 0,
@@ -689,8 +689,8 @@ function updateAsteroids() {
                 x: Math.random() * canvas.width,
                 y: randomAsteroidStartPosition
             },
-            imageSrc: level <= 3 ? './asteroid.png' : (
-                level <= 7 ? './brown-asteroid.png' : './fire-asteroid.png'),
+            imageSrc: level <= 3 ? './asteroidImages/asteroid.png' : (
+                level <= 7 ? './asteroidImages/brown-asteroid.png' : './asteroidImages/fire-asteroid.png'),
             scale: level <= 3 ? 0.1 : (level <= 7 ? 0.06 : 0.04), 
             speed: asteroidSpeed 
         }));
@@ -902,7 +902,7 @@ function animate() {
         bosses.push(new Boss({bossPosition: {
             x: 400,
             y: 50 
-        }, imageSrc: enemyImages[5], color: colors[5], width: 400, height: 200, endurance: 1}));
+        }, imageSrc: './enemyImages/' + enemyImages[5], color: colors[5], width: 400, height: 200, endurance: 1}));
     }
     if(level == 6 && !bosses[0].isDestroyed) {
         bosses[0].update();
@@ -917,7 +917,7 @@ function animate() {
         bosses.push(new Boss({bossPosition: {
             x: 400,
             y: 50 
-        }, imageSrc: enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 1}));
+        }, imageSrc: './enemyImages/' + enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 1}));
     }
     if(level == 12 && !bosses[0].isDestroyed) {
         bosses[0].update();
