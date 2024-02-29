@@ -1036,7 +1036,7 @@ function animate() {
         frames2 = 0;
     }
     //frames4 % 60 === 0 will execute the code in the if statement every 1 second (due to 60hz per second refresh rate)
-    if((level < 12) && (frames4 % 60 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
+    if((level < 12) && (frames4 % 3600 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
         level++;
         levelEl.innerHTML = level;
         asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
