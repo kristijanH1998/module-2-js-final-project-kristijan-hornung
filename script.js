@@ -1258,7 +1258,7 @@ function backToMenu() {
         }  
     }
     helpCard.classList.add('d-none');
-    if(newGameClicked) {
+    if(newGameClicked && (lives !== 0)) {
         continueBtn.classList.remove('d-none');
         continueBtn.classList.add('d-block');
         quitBtn.classList.add('d-block');
