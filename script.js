@@ -38,6 +38,9 @@ const hardBtn = document.getElementById('hardBtn');
 const gameOverHeading = document.getElementById('gameOver');
 const gameWonHeading = document.getElementById('gameWon');
 const helpCard = document.getElementById('helpCard');
+const usernameForm = document.getElementById('usernameForm');
+const usernameInput = document.getElementById('usernameInput');
+const missingNameMessage = document.getElementById('missingName');
 
 const colorBtns = [blackBtn, indigoBtn, blueBtn, greyBtn, greenBtn];
 
@@ -1168,6 +1171,13 @@ menuBtn.addEventListener('click', function(){
     }
     if(!helpCard.classList.contains('d-none')){
         helpCard.classList.add('d-none');
+    }
+    if(usernameForm.classList.contains('d-block')){
+        if(!missingNameMessage.classList.contains('d-none')){
+            missingNameMessage.classList.add('d-none');
+        }
+        usernameForm.classList.remove('d-block');
+        usernameForm.classList.add('d-none');
     }  
 });
 
@@ -1189,6 +1199,8 @@ newGameBtn.addEventListener('click', function() {
             child.classList.add('d-none');
         }  
     }
+    usernameForm.classList.remove('d-none');
+    usernameForm.classList.add('d-block');
 });
 
 continueBtn.addEventListener('click', function() {
@@ -1201,18 +1213,30 @@ continueBtn.addEventListener('click', function() {
 });
 
 difficultyBtns.forEach(button => {
-    button.addEventListener('click', function(){
-        difficulty = difficultyBtns.indexOf(button);
-        lives = 6 - difficulty * 2;
-        livesEl.innerHTML = lives;
-        menuUI.classList.remove('d-block');
-        menuUI.classList.add('d-none');
-        if(animationRequest){
-            cancelAnimationFrame(animationRequest);
+    button.addEventListener('click', function(){ 
+        if(!usernameInput.value == ""){
+            difficulty = difficultyBtns.indexOf(button);
+            lives = 6 - difficulty * 2;
+            livesEl.innerHTML = lives;
+            menuUI.classList.remove('d-block');
+            menuUI.classList.add('d-none');
+            usernameForm.classList.remove('d-block');
+            usernameForm.classList.add('d-none');
+            usernameInput.value = '';
+            if(animationRequest){
+                cancelAnimationFrame(animationRequest);
+            }
+            animate();
+        } else {
+            missingNameMessage.classList.remove('d-none');
         }
-        animate();
     });
 });
+
+//reset username input field when webpage is reloaded
+window.onload = function() {
+    usernameInput.value = '';
+}
 
 //Opens the Options menu
 optionsBtn.addEventListener('click', function() {
@@ -1258,6 +1282,9 @@ function backToMenu() {
         }  
     }
     helpCard.classList.add('d-none');
+    if(!missingNameMessage.classList.contains('d-none')){
+        missingNameMessage.classList.add('d-none');
+    }
     if(newGameClicked && (lives !== 0)) {
         continueBtn.classList.remove('d-none');
         continueBtn.classList.add('d-block');
@@ -1354,6 +1381,10 @@ spaceshipDesignBtns.forEach(button => {
             }
         }, 5);
     });
+});
+
+highScoresBtn.addEventListener('click', function() {
+
 });
 
 //Quit button removes all existing enemies, asteroids, and projectiles from the canvas, and sets level, score, and lives remaining

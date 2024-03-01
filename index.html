@@ -67,6 +67,13 @@
                                        - To choose spaceship design, background color, or switch sounds on/off, select Options from the Menu interface.</p>
                 </div>
             </div>
+            <form class="d-none d-flex flex-column w-25 mb-4" id="usernameForm">
+                <div class="mb-3 d-flex flex-column">
+                    <label for="usernameInput" class="form-label text-white align-self-center fs-5">Enter your username:</label>
+                    <input type="text" class="form-control bg-dark text-white mb-2" id="usernameInput">
+                    <div class="d-none text-warning text-center" id="missingName">Before starting, please enter your name above.</div>
+                </div>                
+            </form>
             <div class="d-block btn-group-vertical btn-group-lg w-25" role="group" aria-label="Large button group" id="menuUI">
                 <button type="button" class="d-block btn btn-outline-light" id="newGameBtn">New Game</button>
                 <button type="button" class="d-none btn btn-outline-light" id="continueBtn">Continue</button>
