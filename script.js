@@ -11,7 +11,7 @@ let backgroundColor = 'black';
 let soundOn = true;
 let username = '';
 
-//buttons
+//buttons, cards, forms, lists
 const menuBtn = document.getElementById('menuBtn');
 const menuUI = document.getElementById('menuUI');
 const newGameBtn = document.getElementById('newGameBtn');
@@ -43,6 +43,7 @@ const scoresCard = document.getElementById('scoresCard');
 const usernameForm = document.getElementById('usernameForm');
 const usernameInput = document.getElementById('usernameInput');
 const missingNameMessage = document.getElementById('missingName');
+const scoreList = document.getElementById('scoreList');
 
 const colorBtns = [blackBtn, indigoBtn, blueBtn, greyBtn, greenBtn];
 
@@ -1107,7 +1108,7 @@ function continueOrEndGame(player) {
             menuUI.classList.add('d-block');
             cancelAnimationFrame(animationRequest);
             gameOver();
-        }, 2000);
+        }, 0);
     } else {
         //'respawn' the player visually on the canvas 2 seconds after it has been hit by enemies but still has lives remaining
         //the player will flicker for several seconds while being respawned
@@ -1478,7 +1479,7 @@ function saveScore(name, score, difficulty){
 	    if (score1.score < score2.score) return 1;
     });
     localStorage.setItem('scores', JSON.stringify(scoresFromStorage));
-    addScoreToDOM();
+    displayScores();
 }
 
 function getScoresFromStorage(){
@@ -1492,18 +1493,20 @@ function getScoresFromStorage(){
 }
 
 function addScoreToDOM(score){
-    //Create list item
+    //Create list score
     const li = document.createElement('li');
-    li.appendChild(document.createTextNode(item));
-    
-    const button = createButton('remove-item btn-link text-red');
-    li.appendChild(button);
+    li.appendChild(document.createTextNode(score));
     //add li to the DOM
-    itemList.appendChild(li);
+    scoreList.appendChild(li);
 }
+//display scores in High Scores list each time the HTML document has been parsed
+document.addEventListener('DOMContentLoaded', displayScores);
 
-function displayItems(){
-    const itemsFromStorage = getItemsFromStorage();
-    itemsFromStorage.forEach(item => addItemToDOM(item));
-    checkUI();
+function displayScores(){
+    //remove all scores previously displayed to avoid repetition of scores on the list
+    while (scoreList.firstChild) {
+        scoreList.removeChild(scoreList.lastChild);
+    }
+    const scoresFromStorage = getScoresFromStorage();
+    scoresFromStorage.forEach(score => addScoreToDOM(score));
 }
