@@ -925,7 +925,7 @@ function animate() {
         bosses.push(new Boss({bossPosition: {
             x: 400,
             y: 50 
-        }, imageSrc: './enemyImages/' + enemyImages[5], color: colors[5], width: 400, height: 200, endurance: 1}));
+        }, imageSrc: './enemyImages/' + enemyImages[5], color: colors[5], width: 400, height: 200, endurance: 50}));
     }
     if(level == 6 && !bosses[0].isDestroyed) {
         bosses[0].update();
@@ -940,7 +940,7 @@ function animate() {
         bosses.push(new Boss({bossPosition: {
             x: 400,
             y: 50 
-        }, imageSrc: './enemyImages/' + enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 1}));
+        }, imageSrc: './enemyImages/' + enemyImages[11], color: colors[11], width: 400, height: 200, endurance: 100}));
     }
     if(level == 12 && !bosses[0].isDestroyed) {
         bosses[0].update();
@@ -1058,7 +1058,7 @@ function animate() {
         frames2 = 0;
     }
     //frames4 % 60 === 0 will execute the code in the if statement every 1 second (due to 60hz per second refresh rate)
-    if((level < 12) && (frames4 % 60 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
+    if((level < 12) && (frames4 % 3600 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
         level++;
         levelEl.innerHTML = level;
         asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
