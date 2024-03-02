@@ -516,7 +516,7 @@ class scoreRecord {
         } else {
             this.difficulty = 'Hard';
         }
-        
+        this.difficultyLevel = difficulty;
     }
 }
 
@@ -1450,11 +1450,17 @@ function gameOver(){
 
 function saveScore(name, score, difficulty){
     let userScore = new scoreRecord({name: name, score: score, difficulty: difficulty});
-
     const scoresFromStorage = getScoresFromStorage();
     scoresFromStorage.push(userScore);
+    scoresFromStorage.sort(function (score1, score2){
+        //sort scores by difficulty (Hard difficulty scores on top of list, followed by Medium, ending with Easy)
+        if (score1.difficultyLevel > score2.difficultyLevel) return -1;
+	    if (score1.difficultyLevel < score2.difficultyLevel) return 1;
+        //sort scores of the same difficulty level based on score value (determined by number of invaders, bosses, and asteroids destroyed)
+        if (score1.score > score2.score) return -1;
+	    if (score1.score < score2.score) return 1;
+    });
     localStorage.setItem('scores', JSON.stringify(scoresFromStorage));
-
 }
 
 function getScoresFromStorage(){
