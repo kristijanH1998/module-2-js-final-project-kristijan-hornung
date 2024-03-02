@@ -50,7 +50,7 @@
         <button style="position: absolute; z-index: 10; width: 4em; height: 2em; top: 5%; right: 1%" type="button" class="btn btn-outline-light d-flex justify-content-center
         align-items-center" id="menuBtn">Menu</button>
         
-        <div class="d-flex flex-column position-absolute top-50 start-50 translate-middle w-75 h-25 align-items-center">
+        <div class="d-flex flex-column position-absolute top-50 start-50 translate-middle w-75 h-50 align-items-center justify-content-center">
             <h1 style="color: white;" class="d-none align-self-center" id="gameOver">Game Over</h1>
             <h1 style="color: white;" class="d-none align-self-center" id="gameWon"><b>You Won!</b></h1>
             <h2 style="color: white;" class="d-none align-self-center" id="chooseDiff"><b>Choose Difficulty:</b></h2>
@@ -65,6 +65,13 @@
                                        - If player loses all remaining lives before finishing the game, the game is over. <br>
                                        - At the start of each game, player chooses difficulty to play at. At Easy difficulty, player will have 6 lives, at Medium 4 lives, and at Hard only 2 lives.<br>
                                        - To choose spaceship design, background color, or switch sounds on/off, select Options from the Menu interface.</p>
+                </div>
+            </div>
+            <div class="d-none card text-bg-dark mb-3 overflow-y-scroll w-25" id="scoresCard">
+                <div class="card-body">
+                  <h5 class="card-title text-center mb-4">High Scores</h5>
+                  <ul id="score-list">
+                  </ul>
                 </div>
             </div>
             <form class="d-none d-flex flex-column w-25 mb-4" id="usernameForm">

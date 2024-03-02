@@ -39,6 +39,7 @@ const hardBtn = document.getElementById('hardBtn');
 const gameOverHeading = document.getElementById('gameOver');
 const gameWonHeading = document.getElementById('gameWon');
 const helpCard = document.getElementById('helpCard');
+const scoresCard = document.getElementById('scoresCard');
 const usernameForm = document.getElementById('usernameForm');
 const usernameInput = document.getElementById('usernameInput');
 const missingNameMessage = document.getElementById('missingName');
@@ -1189,6 +1190,9 @@ menuBtn.addEventListener('click', function(){
     if(!helpCard.classList.contains('d-none')){
         helpCard.classList.add('d-none');
     }
+    if(!scoresCard.classList.contains('d-none')){
+        scoresCard.classList.add('d-none');
+    }
     if(usernameForm.classList.contains('d-block')){
         if(!missingNameMessage.classList.contains('d-none')){
             missingNameMessage.classList.add('d-none');
@@ -1300,6 +1304,7 @@ function backToMenu() {
         }  
     }
     helpCard.classList.add('d-none');
+    scoresCard.classList.add('d-none');
     if(!missingNameMessage.classList.contains('d-none')){
         missingNameMessage.classList.add('d-none');
     }
@@ -1402,7 +1407,19 @@ spaceshipDesignBtns.forEach(button => {
 });
 
 highScoresBtn.addEventListener('click', function() {
-
+    for (const child of menuUI.children) {
+        if(child == backBtnMain){
+            child.classList.add('d-block');
+            child.classList.remove('d-none');
+        } else {
+            child.classList.remove('d-block');
+            child.classList.add('d-none');
+        }  
+    }
+    scoresCard.classList.remove('d-none');
+    backBtnMain.onclick = function() {
+        backToMenu();
+    }
 });
 
 //Quit button removes all existing enemies, asteroids, and projectiles from the canvas, and sets level, score, and lives remaining
@@ -1461,6 +1478,7 @@ function saveScore(name, score, difficulty){
 	    if (score1.score < score2.score) return 1;
     });
     localStorage.setItem('scores', JSON.stringify(scoresFromStorage));
+    addScoreToDOM();
 }
 
 function getScoresFromStorage(){
@@ -1471,4 +1489,21 @@ function getScoresFromStorage(){
         scoresFromStorage = JSON.parse(localStorage.getItem('scores'));
     }
     return scoresFromStorage;
+}
+
+function addScoreToDOM(score){
+    //Create list item
+    const li = document.createElement('li');
+    li.appendChild(document.createTextNode(item));
+    
+    const button = createButton('remove-item btn-link text-red');
+    li.appendChild(button);
+    //add li to the DOM
+    itemList.appendChild(li);
+}
+
+function displayItems(){
+    const itemsFromStorage = getItemsFromStorage();
+    itemsFromStorage.forEach(item => addItemToDOM(item));
+    checkUI();
 }
