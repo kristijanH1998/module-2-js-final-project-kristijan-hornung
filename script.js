@@ -1495,7 +1495,7 @@ function getScoresFromStorage(){
 function addScoreToDOM(score){
     //Create list score
     const li = document.createElement('li');
-    li.appendChild(document.createTextNode(score));
+    li.appendChild(document.createTextNode(score.name + " " + score.score + " " + score.difficulty));
     //add li to the DOM
     scoreList.appendChild(li);
 }
