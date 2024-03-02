@@ -9,6 +9,7 @@ canvas.width = 1280;
 canvas.height = 800;
 let backgroundColor = 'black';
 let soundOn = true;
+let username = '';
 
 //buttons
 const menuBtn = document.getElementById('menuBtn');
@@ -504,6 +505,21 @@ class Boss {
     }
 }
 
+class scoreRecord {
+    constructor({name, score, difficulty}) {
+        this.name = name;
+        this.score = score;
+        if(difficulty === 0) {
+            this.difficulty = 'Easy';
+        } else if (difficulty === 1){
+            this.difficulty = 'Medium';
+        } else {
+            this.difficulty = 'Hard';
+        }
+        
+    }
+}
+
 const player = new Player();
 const projectiles = [];
 const grids = [];
@@ -974,6 +990,7 @@ function animate() {
                                         menuUI.classList.add('d-block');
                                         gameWonHeading.classList.remove('d-none');
                                         cancelAnimationFrame(animationRequest);
+                                        saveScore(username, score, difficulty);
                                         gameOver();
                                     }, 2000);
                                 }
@@ -1039,7 +1056,7 @@ function animate() {
         frames2 = 0;
     }
     //frames4 % 60 === 0 will execute the code in the if statement every 1 second (due to 60hz per second refresh rate)
-    if((level < 12) && (frames4 % 3600 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
+    if((level < 12) && (frames4 % 60 === 0) && (frames4 !== 0) && (bosses.length === 0)) {
         level++;
         levelEl.innerHTML = level;
         asteroidCount = (level <= 3) ? 2 : ((level <= 7) ? 4 : 6);
@@ -1215,6 +1232,7 @@ continueBtn.addEventListener('click', function() {
 difficultyBtns.forEach(button => {
     button.addEventListener('click', function(){ 
         if(!usernameInput.value == ""){
+            username = usernameInput.value;
             difficulty = difficultyBtns.indexOf(button);
             lives = 6 - difficulty * 2;
             livesEl.innerHTML = lives;
@@ -1428,4 +1446,23 @@ function gameOver(){
     frames4 = 0;
     newGameClicked = false;
     backToMenu();
+}
+
+function saveScore(name, score, difficulty){
+    let userScore = new scoreRecord({name: name, score: score, difficulty: difficulty});
+
+    const scoresFromStorage = getScoresFromStorage();
+    scoresFromStorage.push(userScore);
+    localStorage.setItem('scores', JSON.stringify(scoresFromStorage));
+
+}
+
+function getScoresFromStorage(){
+    let scoresFromStorage;
+    if(localStorage.getItem('scores') === null){
+        scoresFromStorage = [];
+    } else {
+        scoresFromStorage = JSON.parse(localStorage.getItem('scores'));
+    }
+    return scoresFromStorage;
 }
