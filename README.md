@@ -1,7 +1,7 @@
 # Space Invaders Video Game
 Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 
-## Description:
+## 1. Description:
 #### Overview and Technologies used:
 * 2D Space Invaders game web app built in JavaScript, HTML and CSS with Bootstrap framework. I chose JS/HTML/CSS toolkit due to the clarity and ease of creating dynamic, interactable, well-structured and styled web apps in these languages, and due to their popularity. I Used Visual Studio Code for code editing and Git for version control since I am most familiar with these tools for software editing and control
 * This is a frontend application that saves game score data to web browser's local storage with its high score saving feature built using Web Storage API
@@ -21,3 +21,6 @@ Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 * Some extra features such as exploding stars that when hit destroy many surrounding invaders around them, bonus items that increase player spaceship’s projectile fire rate or type of cannon the player has to shoot projectiles (maybe a laser, or rockets to fire at invaders)
 * Turning the game into a full-stack application with scores and other data saved in some sort of database
 * Hosting the game online (preferably on AWS)
+
+#### Motivation:
+I decided to create a Space Invaders game because I always wanted to program my own game and then play it in my free time, and I always thought that video games are not easy coding projects. Thus I imagined my game to be a cool addition to my portfolio and resume.
