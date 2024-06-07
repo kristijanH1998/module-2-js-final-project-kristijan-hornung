@@ -24,3 +24,8 @@ Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 
 #### Motivation:
 I decided to create a Space Invaders game because I always wanted to program my own game and then play it in my free time, and I always thought that video games are not easy coding projects. Thus I imagined my game to be a cool addition to my portfolio and resume.
+
+#### Things I learned:
+* No project no matter how large should seem intimidating, even if you work on it alone, because with enough effort, time and resources it can be either completed fully or its progress can reach satisfactory level of completion
+* Making video games like Space Invaders with various effects, animations, and potentially quite a lot of details is not as hard and complex a task as it may seem at first to end users who simply use the app without knowing its technical details
+* It is important to be patient with yourself and show understanding for your own errors, progress challenges, and occasional lack of motivation or fear of failing - all these things are normal and are best overcome by simply starting to work and not thinking much about results
