@@ -35,4 +35,5 @@ I decided to create a Space Invaders game because I always wanted to program my 
 * It is important to be patient with yourself and show understanding for your own errors, progress challenges, and occasional lack of motivation or fear of failing - all these things are normal and are best overcome by simply starting to work and not thinking much about results
 
 ## How to Run the Project 
-
+1. Download and install VS Code editor [here](https://code.visualstudio.com/download)
+2. 
