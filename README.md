@@ -2,10 +2,10 @@
 Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 
 ## Table of Contents
-1. [Description] (#description)
+1. [1. Description] (#1.description)
 2. [How to run the project] (#how-to-run-the-project)
 
-## 1. Description <a name="description"></a>
+## 1. Description
 #### Overview and Technologies used
 * 2D Space Invaders game web app built in JavaScript, HTML and CSS with Bootstrap framework. I chose JS/HTML/CSS toolkit due to the clarity and ease of creating dynamic, interactable, well-structured and styled web apps in these languages, and due to their popularity. I Used Visual Studio Code for code editing and Git for version control since I am most familiar with these tools for software editing and control
 * This is a frontend application that saves game score data to web browser's local storage with its high score saving feature built using Web Storage API
