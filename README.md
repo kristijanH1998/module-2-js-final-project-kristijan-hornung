@@ -3,7 +3,7 @@ Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 
 ## Table of Contents
 - [Description](#description)
-- [How to run the project](#how-to-run-the-project)
+- [How to Run the Project](#how-to-run-the-project)
 
 ## Description
 #### Overview and Technologies used
@@ -34,5 +34,5 @@ I decided to create a Space Invaders game because I always wanted to program my 
 * Making video games like Space Invaders with various effects, animations, and potentially quite a lot of details is not as hard and complex a task as it may seem at first to end users who simply use the app without knowing its technical details
 * It is important to be patient with yourself and show understanding for your own errors, progress challenges, and occasional lack of motivation or fear of failing - all these things are normal and are best overcome by simply starting to work and not thinking much about results
 
-## How to run the project 
+## How to Run the Project 
 
