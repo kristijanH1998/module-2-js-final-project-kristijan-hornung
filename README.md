@@ -2,8 +2,8 @@
 Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 
 ## Table of Contents
-[1. Description]
-[2. How to run the project]
+[1. Description] (#1-description)
+[2. How to run the project] (#2-how-to-run-the-project)
 
 ## 1. Description:
 #### Overview and Technologies used:
