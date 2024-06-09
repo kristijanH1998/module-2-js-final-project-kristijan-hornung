@@ -36,4 +36,10 @@ I decided to create a Space Invaders game because I always wanted to program my 
 
 ## How to Run the Project 
 1. Download and install VS Code editor [here](https://code.visualstudio.com/download)
-2. 
+2. Use the terminal in VS Code (Bash, PowerShell, depending on the OS) to download and install Node.js, find instructions [here](https://nodejs.org/en/download/package-manager)
+3. Use VS Code 'Extensions' page to search for and install latest version of 'HTML CSS Support' dependency (CSS Intellisense for HTML)
+4. Use VS Code 'Extensions' page to search for and install latest version of 'Live Server' extension (to be able to run local development server)
+5. (optional) Use VS Code 'Extensions' page to search for and install latest version of 'JavaScript (ES6) code snippets'
+6. Use VS Code 'Extensions' page to search for and install latest version of 'ESLint' to integrate ESLint JavaScript into your code editor
+7. Follow instructions on [this](https://github.com/git-guides/install-git) link to install Git
+8. Choose the location (directory) for the project repository, navigate to it with 'cd [directory-name]' terminal command and inside of it clone the project repository by running the command 'git clone https://github.com/kristijanH1998/module-2-js-final-project-kristijan-hornung.git' in your terminal
