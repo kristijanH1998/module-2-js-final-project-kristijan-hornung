@@ -2,6 +2,7 @@
 Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 
 ## Table of Contents
+- [Heading](#heading)
 - [Description] (#description)
 - [How to run the project] (#how-to-run-the-project)
 
@@ -35,3 +36,8 @@ I decided to create a Space Invaders game because I always wanted to program my 
 * It is important to be patient with yourself and show understanding for your own errors, progress challenges, and occasional lack of motivation or fear of failing - all these things are normal and are best overcome by simply starting to work and not thinking much about results
 
 ## How to run the project 
+
+## Heading
+
+This is an h1 heading
+
