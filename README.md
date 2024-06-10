@@ -5,7 +5,7 @@ Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 - [Description](#description)
 - [How to Run the Project](#how-to-run-the-project)
 - [How to Play the Game](#how-to-play-the-game)
-- [Credits, Developer Log, MVP](#credits,-developer-log,-MVP)
+- [Credits, Developer Log, MVP](#credits-developer-log-MVP)
 
 ## Description
 #### Overview and Technologies used
