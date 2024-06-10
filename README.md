@@ -57,7 +57,12 @@ I decided to create a Space Invaders game because I always wanted to program my 
 ![player moving and shooting at enemies](/readme-screenshots/space-invaders-shooting.png?raw=true "Player moving with left/right arrow key and shooting at enemies by pressing Space key")
 * Evade enemy projectiles and asteroids. Planets are not dangerous, they will not collide with the player
 ![asteroids](/asteroidImages/asteroid.png?raw=true =50x50)
-<img src="/asteroidImages/asteroid.png" width="50" height="50">
+<div style="display: inline-block">
+    <img src="/asteroidImages/asteroid.png" width="200" height="200">
+    <img src="/asteroidImages/brown-asteroid.png" width="200" height="200">
+    <img src="/asteroidImages/fire-asteroid.png" width="200" height="200">
+</div>
+
 * There are 12 stages in the game of increasing difficulty, with new enemies and two bosses (on levels 6 and 12). Every 1 minute, the game proceeds to a new stage. When the final boss on level 12 is destroyed, the game is won
 * Depending on difficulty level chosed at the start, the player has 6, 4, or 2 lives. If player runs out of lives, the game is over
 * To pause the game at any time, click on Menu bottom in top right corner. To choose spaceship design, background color, or switch sound on/off, select Options. To read instructions on how to play the game, select Help. To see high scores, click on High Scores from main Menu
