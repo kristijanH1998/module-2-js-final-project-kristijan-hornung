@@ -67,5 +67,6 @@ I decided to create a Space Invaders game because I always wanted to program my 
 ![Player wins!](/readme-screenshots/space-invaders-win.png?raw=true "Game is won!")
 * Depending on difficulty level chosed at the start, the player has 6, 4, or 2 lives. If player runs out of lives, the game is over
 * To pause the game at any time, click on Menu bottom in top right corner. To choose spaceship design, background color, or switch sound on/off, select Options. To read instructions on how to play the game, select Help. To see high scores, click on High Scores from main Menu
+![Select settings](/readme-screenshots/space-invaders-options.png?raw=true "Select options for design, background, or sound") ![Instructions for how to play the game](/readme-screenshots/space-invaders-help.png?raw=true "Instructions for how to play the game") ![High score board](/readme-screenshots/space-invaders-high-scores.png?raw=true "High score board with usernames and scores ranked")
 * Once the game has been started, if Menu is opened, click on Continue to resume playing, or Quit to quit the game
 * Current score can be found in upper left corner, alongside the current stage (level). Remaining lives and the Menu button are in the top right corner.
