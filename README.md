@@ -5,6 +5,7 @@ Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 - [Description](#description)
 - [How to Run the Project](#how-to-run-the-project)
 - [How to Play the Game](#how-to-play-the-game)
+- [Credits and Developer Log](#credits-and-developer-log)
 
 ## Description
 #### Overview and Technologies used
@@ -71,3 +72,6 @@ I decided to create a Space Invaders game because I always wanted to program my 
 * Once the game has been started, if Menu is opened, click on Continue to resume playing, or Quit to quit the game
 ![Continue and Quit buttons](/readme-screenshots/space-invaders-continue-quit.png?raw=true "Continue (Resume) and Quit buttons in main menu")
 * Current score can be found in top left corner, alongside the current stage (level). Remaining lives and the Menu button are in the top right corner.
+
+## Credits and Developer Log
+* Online sources used to develop this project as well as the Developer Log can be found [here](https://docs.google.com/document/d/171uDnwOZFgw6h3zi3xp7hASAzlEwYrx0jgkx9Fazk8Q/edit?usp=sharing)
