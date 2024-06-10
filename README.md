@@ -57,9 +57,9 @@ I decided to create a Space Invaders game because I always wanted to program my 
 ![player moving and shooting at enemies](/readme-screenshots/space-invaders-shooting.png?raw=true "Player moving with left/right arrow key and shooting at enemies by pressing Space key")
 * Evade enemy projectiles and asteroids. Planets are not dangerous, they will not collide with the player
 <p align="middle">
-    <img src="/asteroidImages/asteroid.png" width="100" height="100" padding-right="20px">
-    <img src="/asteroidImages/brown-asteroid.png" width="100" height="100" padding-right="20px">
-    <img src="/asteroidImages/fire-asteroid.png" width="100" height="100" padding-right="20px">
+    <img src="/asteroidImages/asteroid.png" width="100" height="100" hspace="20">
+    <img src="/asteroidImages/brown-asteroid.png" width="100" height="100" hspace="20">
+    <img src="/asteroidImages/fire-asteroid.png" width="100" height="100" hspace="20">
 </p>
 
 * There are 12 stages in the game of increasing difficulty, with new enemies and two bosses (on levels 6 and 12). Every 1 minute, the game proceeds to a new stage. When the final boss on level 12 is destroyed, the game is won
