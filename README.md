@@ -50,6 +50,7 @@ I decided to create a Space Invaders game because I always wanted to program my 
 * When the game launches, click on New Game
 ![main menu with Start Game button](/readme-screenshots/space-invaders-main-menu.png?raw=true "Main Menu with New Game button")
 * On the next screen, enter your username and choose the difficulty (Easy, Medium, or Hard)
+![username text field and pick difficulty](/readme-screenshots/space-invaders-start-game.png?raw=true "Enter your username and choose game difficulty")
 * The game now starts
 * Press left arrow key to move left or right arrow key to move right
 * To shoot at enemies, press Space bar. To shoot a stream of projectiles, press and hold Space bar
