@@ -4,6 +4,7 @@ Final JavaScript project for BVT Module 2 (Intro to JavaScript)
 ## Table of Contents
 - [Description](#description)
 - [How to Run the Project](#how-to-run-the-project)
+- [How to Play the Game](#how-to-play-the-game)
 
 ## Description
 #### Overview and Technologies used
@@ -44,3 +45,6 @@ I decided to create a Space Invaders game because I always wanted to program my 
 7. Follow instructions on [this](https://github.com/git-guides/install-git) link to install Git
 8. Choose the location (directory) for the project repository, navigate to it with 'cd [directory-name]' terminal command and inside of it clone the project repository by running the command 'git clone https://github.com/kristijanH1998/module-2-js-final-project-kristijan-hornung.git' in your terminal
 9. Select and open 'index.html' file in the code editor, and click on 'Go Live' button at the bottom right bar in VS Code - this should open the game in your default web browser
+
+## How to Play the Game
+*  
