@@ -47,4 +47,13 @@ I decided to create a Space Invaders game because I always wanted to program my 
 9. Select and open 'index.html' file in the code editor, and click on 'Go Live' button at the bottom right bar in VS Code - this should open the game in your default web browser
 
 ## How to Play the Game
-*  
+* When the game launches, click on New Game.
+* On the next screen, enter your username and choose the difficulty (Easy, Medium, or Hard).
+* The game now starts.
+* Press left arrow key to move left or right arrow key to move right.
+* To shoot at enemies, press Space bar. To shoot a stream of projectiles, press and hold Space bar.
+* Evade enemy projectiles and asteroids. Planets are not dangerous, they will not collide with the player.
+* There are 12 stages in the game of increasing difficulty, with new enemies and two bosses (on levels 6 and 12). Every 1 minute, the game proceeds to a new stage. When the final boss on level 12 is destroyed, the game is won.
+* Depending on difficulty level chosed at the start, the player has 6, 4, or 2 lives. If player runs out of lives, the game is over.
+* To pause the game at any time, click on Menu bottom in top right corner. To choose spaceship design, background color, or switch sound on/off, select Options. To read instructions on how to play the game, select Help. To see high scores, click on High Scores from main Menu.
+* Once the game has been started, if Menu is opened, click on Continue to resume playing, or Quit to quit the game.
