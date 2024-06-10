@@ -54,6 +54,7 @@ I decided to create a Space Invaders game because I always wanted to program my 
 * The game now starts
 * Press left arrow key to move left or right arrow key to move right
 * To shoot at enemies, press Space bar. To shoot a stream of projectiles, press and hold Space bar
+![player moving and shooting at enemies](/readme-screenshots/space-invaders-shooting.png?raw=true "Player moving with left/right arrow key and shooting at enemies by pressing Space key")
 * Evade enemy projectiles and asteroids. Planets are not dangerous, they will not collide with the player
 * There are 12 stages in the game of increasing difficulty, with new enemies and two bosses (on levels 6 and 12). Every 1 minute, the game proceeds to a new stage. When the final boss on level 12 is destroyed, the game is won
 * Depending on difficulty level chosed at the start, the player has 6, 4, or 2 lives. If player runs out of lives, the game is over
