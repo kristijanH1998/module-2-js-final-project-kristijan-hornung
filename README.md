@@ -56,7 +56,7 @@ I decided to create a Space Invaders game because I always wanted to program my 
 * To shoot at enemies, press Space bar. To shoot a stream of projectiles, press and hold Space bar
 ![player moving and shooting at enemies](/readme-screenshots/space-invaders-shooting.png?raw=true "Player moving with left/right arrow key and shooting at enemies by pressing Space key")
 * Evade enemy projectiles and asteroids. Planets are not dangerous, they will not collide with the player
-<p align="middle">
+<p align="middle"> Types of Asteroids:
     <img src="/asteroidImages/asteroid.png" width="100" height="100" hspace="20" title="White asteroid">
     <img src="/asteroidImages/brown-asteroid.png" width="100" height="100" hspace="20" title="Brown asteroid">
     <img src="/asteroidImages/fire-asteroid.png" width="100" height="100" hspace="20" title="Fiery asteroid">
