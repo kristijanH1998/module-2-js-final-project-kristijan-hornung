@@ -37,8 +37,8 @@ I decided to create a Space Invaders game because I always wanted to program my 
 * It is important to be patient with yourself and show understanding for your own errors, progress challenges, and occasional lack of motivation or fear of failing - all these things are normal and are best overcome by simply starting to work and not thinking much about results
 
 ## How to Run the Project
-To play the game on Netlify without making a local repository clone and setting up environment, click here: [Play Game](https://space-invaders-game-kh.netlify.app/)
-Otherwise, follow the installation process described below: 
+To play the game on Netlify without making a local repository clone and setting up environment, click here: [Play Game](https://space-invaders-game-kh.netlify.app/)\
+Otherwise, follow installation process described below: 
 1. Download and install VS Code editor [here](https://code.visualstudio.com/download)
 2. Use the terminal in VS Code (Bash, PowerShell, depending on the OS) to download and install Node.js, find instructions [here](https://nodejs.org/en/download/package-manager)
 3. Use VS Code 'Extensions' page to search for and install latest version of 'HTML CSS Support' dependency (CSS Intellisense for HTML)
